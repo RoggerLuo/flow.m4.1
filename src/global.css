@@ -1,0 +1,34 @@
+html, body, :global(#root) {
+  height: 100%;
+  margin: 0px;
+  font-family:"Microsoft YaHei";
+  word-break: break-all;
+}
+
+/*:global(pre){
+    background-color: white;
+    border-radius: 5px;
+    padding: 13px 13px 9px 13px;    
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: -5px;
+    margin-bottom: 5px;
+
+}
+:global(code) {
+    color: #1890ff;
+    background-color: white;
+    padding: 4px 2px 1px 2px;
+    border-radius: 5px;
+}
+:global(pre > code) {
+    color: #8e8e8e;
+}
+:global(strong) {
+    background-color: white;
+    padding: 2px 2px 1px 2px;
+    border-radius: 5px;    
+}
+:global(p) {
+    margin-bottom: .5em;
+}*/
