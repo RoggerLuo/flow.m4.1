@@ -1,8 +1,11 @@
 import React from 'react'
 import s from './style'
 import './global.css'
-import List,{ initListData, listAdd, listModify, listRemove } from 'components/list'
+import List,{ fetchData, listAdd, listModify, listRemove } from 'components/list'
 import Editor from 'components/editor'
+import Add from 'components/Add'
+import SearchPanel,{ toggle } from 'components/searchPanel'
+
 import {Deliver} from 'dva'
 class App extends React.Component {
     constructor(props) {
@@ -11,55 +14,46 @@ class App extends React.Component {
         this.onSelect = (selectedNote) => {
             this.interfaces.replace(selectedNote)
         }
-        // this.replaceHandler = (replacer) => {
-        //     bridge.replacer = replacer
-        // }
-        // this.bridge = bridge
-        // this.onNewNote = listAdd
-        // this.onSaveNote = listModify
-        // this.onDelete = listRemove
-        // replaceHandler={this.replaceHandler} 
-        // onNewNote={this.onNewNote} 
-        // onSaveNote={this.onSaveNote}
-        // onDelete={this.onDelete}
-
     }
     componentDidMount(){
-        initListData((notes)=>{
-            if (notes[0]) {
-                this.interfaces.replace(notes[0])
-            }
-        })
+        fetchData()
+        // (notes)=>{
+        //     if (notes[0]) {
+        //         this.interfaces.replace(notes[0])
+        //     }
+        // })
     }
     render(){
         return (
             <div style={{height:'100%',display:'flex',flexDirection:'column'}}>
                 <div style={{flex:'1',display:'flex'}} >
-                    <div style={{height:'100%',display:'flex',width:'50%'}}>
-                        <div className={s.scrollbar} style={{width:'50%',height:'100%',overflowY:'scroll'}}>
-                            <List onSelect={this.onSelect}/>
-                        </div>
-                        <div className={s.scrollbar} style={{width:'50%',height:'100%',overflowY:'scroll'}}>
-                            <List/>
-                        </div>
+                    <div className={s.scrollbar}>
+                        <List onSelect={this.onSelect}/>
                     </div>
-                    <div style={{height:'100%',width:'50%'}}>
-                        <Editor 
-                            deliver={Deliver(this.interfaces)}
-                        />
+                    <div style={{height:'100%',width:'50%',display:'none'}}>
+                        
                     </div>
                 </div>
+                <Add click={toggle}/>
+                <SearchPanel>
+                    <Editor deliver={ Deliver(this.interfaces) }/>
+                </SearchPanel>
             </div>
         )
     }
 }
 export default App
     
-// 
-/*
-<div style={{height:'40px',width:'100%'}}>
-</div>
+// this.replaceHandler = (replacer) => {
+//     bridge.replacer = replacer
+// }
+// this.bridge = bridge
+// this.onNewNote = listAdd
+// this.onSaveNote = listModify
+// this.onDelete = listRemove
+// replaceHandler={this.replaceHandler} 
+// onNewNote={this.onNewNote} 
+// onSaveNote={this.onSaveNote}
+// onDelete={this.onDelete}
 
-<Header/>
-<SearchPanel/>
-*/
+//style={{width:'100%',height:'100%',overflowY:'scroll'}}

@@ -1,5 +1,6 @@
 import React from 'react'
-
+import { Editor } from 'draft-js'
+import {startFromText} from './draft'
 export function NoteContent({ itemId, content, select }){
     return (
         <div 
@@ -7,6 +8,10 @@ export function NoteContent({ itemId, content, select }){
           style={{fontSize:'16px',lineHeight:'1.5',minHeight:'50px',padding:'15px 10px 15px 10px'}} 
         >
             <div>{content}</div>
+            <Editor 
+                editorState={startFromText(content)} 
+                onChange={()=>{}} 
+            />
         </div>
     )
 }
@@ -15,7 +20,7 @@ export function NoteWrapper({ isSelected, children }){
     let style = { cursor:'pointer' }
     let _class = ""
     if(isSelected){
-        style = { backgroundColor: '#ececec' } 
+        // style = { backgroundColor: '#ececec' } 
         _class = "selectedNote"
     }
     return (

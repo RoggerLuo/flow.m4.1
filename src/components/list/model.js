@@ -1,5 +1,4 @@
 import invariant from 'invariant'
-
 export default {
     namespace: 'list',
     state: {
@@ -65,7 +64,7 @@ export default {
                 invariant(note.hasOwnProperty('itemId') && note.hasOwnProperty('content') && note.hasOwnProperty('wordList'), 'notes格式不对')
             }
             yield put({ type: 'fetch', notes })
-            cb(notes)
+            cb && cb(notes)
         },
         * deleteNote({ id }, { fetch, call, put }) {
             yield call(fetch, `note/${id}`, { method: 'delete' })

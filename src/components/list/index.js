@@ -3,7 +3,7 @@ import model from './model'
 import component from './component'
 Model.create(model)
 export default component
-export function initListData(cb) {
+export function fetchData(cb) {
     dva._store.dispatch({ type: 'list/fetchNotes', cb })
 }
 export function listAdd(note) {

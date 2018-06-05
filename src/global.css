@@ -3,6 +3,7 @@ html, body, :global(#root) {
   margin: 0px;
   font-family:"Microsoft YaHei";
   word-break: break-all;
+  -webkit-tap-highlight-color:rgba(0,0,0,0);
 }
 
 /*:global(pre){
