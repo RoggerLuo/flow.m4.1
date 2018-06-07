@@ -1,6 +1,6 @@
 import dva,{Model} from 'dva'
 import model from './model'
-import component from './component'
+import component from './lazyComponent'
 Model.create(model)
 export default component
 export function fetchData(cb) {

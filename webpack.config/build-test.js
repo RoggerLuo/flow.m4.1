@@ -27,14 +27,16 @@ function dev(basic){
     return basic   
 }
 
-const webpackConfig = dev(basic)
-webpack(webpackConfig, function (err, stats) {
-  if (err) throw err
-  process.stdout.write(stats.toString({
-    colors: true,
-    modules: false,
-    children: false,
-    chunks: false,
-    chunkModules: false
-  }) + '\n')
-})    
+const configuration = product(basic)
+let compiler = webpack(configuration);
+compiler.apply(new webpack.ProgressPlugin());
+compiler.run(function(err, stats) {
+    if (err) throw err
+    process.stdout.write(stats.toString({
+        colors: true,
+        modules: false,
+        children: false,
+        chunks: false,
+        chunkModules: false
+    }) + '\n')
+})
