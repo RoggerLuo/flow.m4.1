@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "ssr": "node ./webpack.config/ssr.js",
+    "render": "node -r babel-register serverRender.js",
     "start": "webpack-dev-server --progress --color",
     "build": "node ./webpack.config/build.js",
     "build-test": "node ./webpack.config/build-test.js",

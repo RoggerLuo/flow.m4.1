@@ -1,16 +1,16 @@
 import React from 'react'
-import { Editor } from 'draft-js'
-import {startFromText} from './draft'
+// import { Editor } from 'draft-js'
+// import {startFromText} from './draft'
+import { startFromText, BaseEditor } from 'components/draftEditor'
 export function NoteContent({ itemId, content, select }){
     return (
         <div 
           onClick={select}
-          style={{fontSize:'16px',lineHeight:'1.5',minHeight:'50px',padding:'15px 10px 15px 10px'}} 
+          style={{userSelect:'none',fontSize:'16px',lineHeight:'1.5',minHeight:'50px',padding:'15px 10px 15px 10px'}} 
         >
-            <div>{content}</div>
-            <Editor 
+            <BaseEditor 
                 editorState={startFromText(content)} 
-                onChange={()=>{}} 
+                readOnly={true}
             />
         </div>
     )

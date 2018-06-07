@@ -1,0 +1,69 @@
+.scrollbar::-webkit-scrollbar {
+  width: 1px;
+  background: #cccccc;
+}
+.scrollbar::-moz-scrollbar {
+  width: 1px;
+  background: #cccccc;
+}
+.scrollbar::-ms-scrollbar {
+  width: 1px;
+  background: #cccccc;
+}
+.scrollbar::-o-scrollbar {
+  width: 1px;
+  background: #cccccc;
+}
+.scrollbar::scrollbar {
+  width: 1px;
+  background: #cccccc;
+}
+.scrollbar::-webkit-scrollbar-thumb {
+  background: #00B1FB;
+}
+.scrollbar::-moz-scrollbar-thumb {
+  background: #00B1FB;
+}
+.scrollbar::-ms-scrollbar-thumb {
+  background: #00B1FB;
+}
+.scrollbar::-o-scrollbar-thumb {
+  background: #00B1FB;
+}
+.scrollbar::scrollbar-thumb {
+  background: #00B1FB;
+}html, body, #root {
+  height: 100%;
+  margin: 0px;
+  font-family:"Microsoft YaHei";
+  word-break: break-all;
+  -webkit-tap-highlight-color:rgba(0,0,0,0);
+}
+
+/*:global(pre){
+    background-color: white;
+    border-radius: 5px;
+    padding: 13px 13px 9px 13px;    
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: -5px;
+    margin-bottom: 5px;
+
+}
+:global(code) {
+    color: #1890ff;
+    background-color: white;
+    padding: 4px 2px 1px 2px;
+    border-radius: 5px;
+}
+:global(pre > code) {
+    color: #8e8e8e;
+}
+:global(strong) {
+    background-color: white;
+    padding: 2px 2px 1px 2px;
+    border-radius: 5px;    
+}
+:global(p) {
+    margin-bottom: .5em;
+}*/
