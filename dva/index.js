@@ -1,4 +1,4 @@
-import "babel-polyfill"
+// import "babel-polyfill"
 import { createStore, applyMiddleware } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 import { connect } from 'react-redux'
