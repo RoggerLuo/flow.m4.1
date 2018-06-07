@@ -8,6 +8,7 @@ module.exports = {
     },
     output: {
         path: `${projectRoot}/dist`,
+        chunkFilename: '[name].bundle.js',
         filename: 'bundle.[hash].js'
     },
     resolve: {
@@ -25,7 +26,8 @@ module.exports = {
                 exclude: /(node_modules|bower_components)/,
                 loader: 'babel-loader',
                 options: {
-                    presets: ['env','react']
+                    presets: ['env','react'],
+                    "plugins": ["syntax-dynamic-import"]
                 }
             },
             { 
