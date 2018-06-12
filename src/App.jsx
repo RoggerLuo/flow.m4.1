@@ -11,7 +11,7 @@ import { Model } from 'dva'
 class App extends React.Component {
     constructor(props) {
         super(props)
-        this.state={ editorVisible:false }
+        this.state={ editorVisible: true }
         this.interfaces = {}
         this.onSelect = (selectedNote) => {
             this.interfaces.replace(selectedNote)
@@ -23,12 +23,14 @@ class App extends React.Component {
             open()
             this.interfaces.searchInput.focus() 
         }
+
         this.openEditor = () => {
             localStorage.setItem('windowScrollTop',window.scrollY)
             const storageString = localStorage.getItem('_editorNote')
             if(storageString) {
                 const note = JSON.parse(storageString)
-                this.interfaces.editorReplace(note)
+                // this.interfaces.editorReplace(note)
+                // this.replaceNote(note)
                 Model.change('editor','unsaved',true)
             }else{
                 this.interfaces.editorNew()
@@ -38,11 +40,44 @@ class App extends React.Component {
                 this.interfaces.editorFocus()
             })
         }
-        this.interfaces.closeEditor = () => {
+        this.replaceNote = (note) => {
+            this.interfaces.editorReplace(note)//{itemId:123123,content:'abc'}
+        }
+        this.closeEditor = () => {
             this.setState({ editorVisible: false },()=>{
                 const windowScrollTop = localStorage.getItem('windowScrollTop')
                 window.scrollTo({top:windowScrollTop})
             })          
+        }
+        this.test1 = () => {
+            this.interfaces.editorReplace({itemId:123123,content:'test111'})
+
+            // this.replaceNote({itemId:123123,content:'test111'})
+        }
+        this.test2 = () => {
+            localStorage.setItem('windowScrollTop',window.scrollY)
+            const storageString = localStorage.getItem('_editorNote')
+            if(storageString) {
+                const note = JSON.parse(storageString)
+                // this.interfaces.editorReplace(note)
+                // this.replaceNote(note)
+                Model.change('editor','unsaved',true)
+            }
+            //}else{
+
+                this.setState({ editorVisible: true },() => { //为了先让editor出现，再focus
+                    // new or 不new不是在这里决定的, 这里只要把localStorage展示出来就好
+                    this.interfaces.editorFocus()
+                    
+                    this.interfaces.editorReplace({itemId:123123,content:'test222'},()=>{  
+                    })
+
+
+                })
+  
+            // this.replaceNote()
+
+
         }
     }
     componentDidMount(){
@@ -50,6 +85,7 @@ class App extends React.Component {
         // document.getElementById('notes-container').addEventListener("touchmove",mo,false)
     }
     render(){
+
         // let editorStyle = { height:'100%',width:'100%',position:'fixed',top:0,bottom:0,left:0,right:0, zIndex: 2 }
         // if(!this.state.editorVisible) {
         //     editorStyle = { ...editorStyle, visibility:'hidden'}
@@ -63,6 +99,11 @@ class App extends React.Component {
         if(this.state.editorVisible) {
             listStyle.display = 'none'
         }
+        let editorStyle = { height: '100%', width:'100%', position:'fixed', top:0, bottom:0, left:0, right:0, zIndex: 2, backgroundColor:'white' }
+        if(!this.state.editorVisible) {
+            editorStyle = { ...editorStyle, visibility: 'hidden' }
+        }
+
         return (
             <div style={{height:'100%',display:'flex',flexDirection:'column'}}>
                 
@@ -70,9 +111,17 @@ class App extends React.Component {
                     <List onSelect={this.onSelect}/>
                 </div>
 
-                <Editor interfaces={this.interfaces} visibility={this.state.editorVisible}/>
+                <div id="eidtor-container" style={editorStyle} onClick={this.interfaces.editorFocus}>
+                    <Editor interfaces={this.interfaces} />
+                    
+                    <div style={{zIndex:3,display:'flex',textAlign: 'center',lineHeight: '44px',position:'fixed',bottom:'15px',left:'15px',right:'15px'}}>
+                        <div onClick={this.closeEditor} style={{ flex: '1',backgroundColor: 'gold' }}>取消</div>
+                        <div onClick={()=>this.test1()} style={{ flex: 1, backgroundColor: 'rgb(16, 142, 233)', color: 'white' }}>保存</div>
+                    </div>
+                </div>
 
-                <Add click={this.openEditor} />
+
+                <Add click={()=>{this.test2()} } />
                 <S click={this.openSearch}/>
                 <SearchPanel interfaces={this.interfaces}>
                     <Search />

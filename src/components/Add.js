@@ -13,7 +13,7 @@ const Add = ({ click }) => {
                 height:'46px',
                 width:'46px',
                 borderRadius:'23px',
-                zIndex:1
+                zIndex:3
             }}
             onClick={click}
         >
