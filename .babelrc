@@ -1,4 +1,8 @@
-{  
-  "presets":["env","react","stage-3"],
-  "plugins": ["syntax-dynamic-import"]
-}  
+{
+    "presets": ["env", "react", "stage-3"],
+    "plugins": [
+        "syntax-dynamic-import",
+        "transform-regenerator",
+        ["import", { "libraryName": "antd-mobile", "style": "css" }]
+    ]
+}

@@ -1,12 +1,12 @@
 import React from 'react'
-import dva,{connect} from 'dva'
-import Note from './NoteContainer'
+import { connect } from 'dva'
+import Note from './Note/Note'
 
-function Notes({ dispatch, currentIndex, onSelect, notes }){
-    const params = { dispatch, currentIndex, onSelect }
+function Notes({ onSelect, notes, selectedIndex, noteCore }){
+    const publicParams = { selectedIndex, onSelect, noteCore }
     return (
-        <div style={{width:'100%'}}>
-            { notes.map((note,index) => <Note {...params} index={index} note={note} key={index}/>) }
+        <div style={{width:'100%',backgroundColor:'white'}}>
+            { notes.map((note,index) => <Note {...publicParams} index={index} note={note} key={index}/>) }
         </div>
     )
 }
@@ -14,7 +14,8 @@ function Notes({ dispatch, currentIndex, onSelect, notes }){
 function mapStateToProps(state) {
     return { 
         notes: state.list.notes,
-        currentIndex: state.list.index
+        selectedIndex: state.list.index,
+        noteCore: state.list.noteCore
     }
 }
 

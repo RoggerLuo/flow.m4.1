@@ -3,8 +3,8 @@ import { connect } from 'dva'
 import SearchInput from './SearchInput'
 import PanelView from './PanelView'
 import { Model } from 'dva'
-function Panel({ text, visibility, dispatch, onSearchResult, children }) {
-    if(!visibility) return null
+function Panel({ text, visibility, dispatch, onSearchResult, children, interfaces }) {
+    // if(!visibility) return null
     const search = () => {
         const queryStr = Model.get('searchPanel').text
         dispatch({ type: 'searchPanel/search', queryStr, onSearchResult })
@@ -28,7 +28,7 @@ function Panel({ text, visibility, dispatch, onSearchResult, children }) {
     //     })
     // }
     return (
-        <PanelView>
+        <PanelView visibility={visibility} interfaces={interfaces}>
             { children }            
         </PanelView>
     )

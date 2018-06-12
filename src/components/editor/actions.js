@@ -1,5 +1,5 @@
 import moveSelectionToEnd from './moveSelectionToEnd'
-import { startFromScratch, startFromText } from './draft'
+import { startFromScratch, startFromText } from 'components/draftEditor'
 import { Model } from 'dva'
 
 export default function() {
@@ -19,28 +19,18 @@ export default function() {
             const callback = () => self.props.onDelete(itemId)
             Model.dispatch({ type: 'editor/delete', itemId, callback })
         },
-        saveNote() {
-            const { itemId, editorState } = self.state
-            const note = { itemId, content: editorState.getCurrentContent().getPlainText() }
-            if (newNoteAdded) {
-                newNoteAdded = false
-                self.props.onNew && self.props.onNew(note)
-            } else {
-                self.props.onSave && self.props.onSave(note)
-            }
-            const unsaved = Model.get('editor').unsaved
-            Model.dispatch({ type: 'editor/save', unsaved, itemId, editorState })
-        },
-        newNote() {
-            // saveNote = saveNote.bind(this)
-            this.saveNote()
-            self.state.inputDOM.blur()
-            const itemId = Date.parse(new Date()) / 1000
-            self.setState({ editorState: startFromScratch(), itemId }, () => {
-                state.inputDOM.focus()
-                newNoteAdded = true
-            })
-        },
+       
+        // newNote() {
+        //     debugger
+        //     console.log('new note.')
+        //     const itemId = Date.parse(new Date()) / 1000
+        //     debugger
+        //     self.setState({ editorState: startFromScratch(), itemId }, () => {
+        //         console.log('(???)')
+        //         debugger
+        //         window.localStorage.setItem('_editorNote',JSON.stringify({ content:'', itemId }))
+        //     })
+        // },
         replace(note) {
             const editorState = startFromText(note.content)
             oldText = editorState.getCurrentContent().getPlainText()
@@ -52,6 +42,7 @@ export default function() {
                 if (newText !== oldText) {
                     Model.change('editor', 'unsaved', true)
                     oldText = newText
+                    window.localStorage.setItem('_editorNote',JSON.stringify({content:newText,itemId:self.state.itemId}) )
                 }
             })
         },

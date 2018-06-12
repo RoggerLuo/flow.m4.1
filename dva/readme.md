@@ -1,3 +1,11 @@
+## Model reduce\change
+
+```javascript
+Model.reduce((state)=>{
+    return { ...state, index: 1 }
+})
+```   
+
 
 ## deliver interface
 传入一个interfaces对象,  

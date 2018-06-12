@@ -1,4 +1,3 @@
-import { startFromScratch, startFromText } from './draft'
 import invariant from 'invariant'
 export default {
     namespace: 'editor',
@@ -17,12 +16,13 @@ export default {
             // 不知道为什么DELETE的没有返回，server端给了返回的
             callback && callback()
         },        
-        * save({ unsaved, editorState, itemId }, { fetch, call, put }) {
+        * save({ unsaved, editorState, itemId, callback }, { fetch, call, put }) {
             invariant(!!itemId,'itemId没有传入')
             if (unsaved) {
                 const contentState = editorState.getCurrentContent()
                 const text = contentState.getPlainText()
                 yield put({ type: 'postServer', content: text, itemId })
+                callback && callback()
             }
         },
         * postServer({ itemId, content }, { fetch, call, put }) {

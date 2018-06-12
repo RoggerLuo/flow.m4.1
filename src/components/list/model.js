@@ -1,16 +1,16 @@
 import invariant from 'invariant'
+// import { getInitNotes } from './Note/Core'
+// getInitNotes()
 export default {
     namespace: 'list',
     state: {
         notes: [],
         index: 0,
+        noteCore: null
     },
     reducers: {
         fetch(state,{ notes }) {
             return { ...state, notes }
-        },
-        select(state,{ index }) {
-            return { ...state, index }
         },
         add(state,{ note }) {
             const notes = [note,...state.notes]

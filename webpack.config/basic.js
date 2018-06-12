@@ -9,7 +9,8 @@ module.exports = {
     output: {
         path: `${projectRoot}/dist`,
         chunkFilename: '[name].bundle.js',
-        filename: 'bundle.[hash].js'
+        filename: 'bundle.[hash].js',
+        // publicPath: '/'
     },
     resolve: {
         extensions: ['.js', '.jsx', '.css', '.html'],
@@ -23,11 +24,15 @@ module.exports = {
         rules: [
             {
                 test: /\.(js|jsx)$/,
-                exclude: /(node_modules|bower_components)/,
+                exclude: /(node_modules)/,
                 loader: 'babel-loader',
                 options: {
                     presets: ['env','react'],
-                    "plugins": ["syntax-dynamic-import"]
+                    plugins: [
+                        "syntax-dynamic-import",
+                        "transform-regenerator",
+                        ["import", { "libraryName": "antd-mobile", "style": 'css' }]
+                    ]
                 }
             },
             { 

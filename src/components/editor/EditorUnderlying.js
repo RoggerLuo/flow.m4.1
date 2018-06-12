@@ -7,9 +7,12 @@ export default function({ editorState, onChange, handleKeyCommand, setRef }) {
         <Editor 
             editorState={editorState} 
             onChange={onChange} 
-            handleKeyCommand={handleKeyCommand}
-            keyBindingFn={keyBinding}
             ref={setRef} 
+            placeholder={'Do less, get more'}
         />
     )
 }
+/*
+handleKeyCommand={handleKeyCommand}
+keyBindingFn={keyBinding}
+*/

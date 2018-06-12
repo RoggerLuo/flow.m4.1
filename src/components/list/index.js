@@ -1,8 +1,12 @@
-import dva,{Model} from 'dva'
+import dva,{ Model } from 'dva'
 import model from './model'
-import component from './lazyComponent'
+import component from './Notes'
+import importDraftjsCore from './lazyCore'
+
 Model.create(model)
+
 export default component
+export { importDraftjsCore }
 export function fetchData(cb) {
     dva._store.dispatch({ type: 'list/fetchNotes', cb })
 }

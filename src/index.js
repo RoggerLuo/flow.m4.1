@@ -3,7 +3,7 @@ import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import dva,{Model,Fetch} from 'dva'
 import App from './App'
-
+import './global.css'
 import model from './model'
 
 const fetch = Fetch(`http://47.75.9.249:5555`)

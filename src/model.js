@@ -6,6 +6,8 @@ export default {
     state: {
         showSearchPanel: false,
         content: '',
+        // listComponent: ()=>null,
+        // editorComponent: ()=>null
     },
     reducers: {
     },

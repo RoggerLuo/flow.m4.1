@@ -2,20 +2,20 @@ const basic = require('./basic')
 const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-
 const projectRoot = path.resolve(__dirname, '../')
-
 function dev(basic) {
     basic.mode = 'development'
     basic.output.filename = 'bundle.js'
     basic.module.rules.push({
-        test: /\.css$/,
+        test: /\.(less|css)$/,
         use: [
             'style-loader',
             {
                 loader: 'css-loader',
-                options: { modules: true }
+                // options: { modules: true }
             },
+            // 'less-loader',
+            // { loader: 'less-loader', options: { javascriptEnabled: true } }
             'postcss-loader'
         ]
     })
@@ -32,7 +32,7 @@ function dev(basic) {
         contentBase: './dist', // static server
         inline: true,
         hot: true,
-        host: "172.16.1.178",// "192.168.1.5", //"localhost" //
+        host:  "192.168.1.7"//"172.16.1.178", // "192.168.1.5", //"localhost" //"192.168.1.7" //
     }
     /*basic.devServer.proxy = {
         '/': {

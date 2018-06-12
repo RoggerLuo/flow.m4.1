@@ -1,14 +1,14 @@
-const basic = require('./basic')
+const basic = require('../basic')
 const path = require('path')
 const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 
-const projectRoot = path.resolve(__dirname, '../')
+const projectRoot = path.resolve(__dirname, '../../')
 
 function product(basic) {
-    basic.entry.app = `${projectRoot}/webpack.config/testApp.js`
+    basic.entry.app = `${projectRoot}/webpack.config/sizeTest/testApp.js`
     basic.mode = 'production'
     basic.output.filename = '[name].bundle.[hash].js'
     basic.module.rules.push({
