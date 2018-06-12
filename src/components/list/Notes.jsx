@@ -6,7 +6,7 @@ function Notes({ onSelect, notes, selectedIndex, noteCore }){
     const publicParams = { selectedIndex, onSelect, noteCore }
     return (
         <div style={{width:'100%',backgroundColor:'white'}}>
-            { notes.map((note,index) => <Note {...publicParams} index={index} note={note} key={index}/>) }
+            { notes.slice(0,30).map((note,index) => <Note {...publicParams} index={index} note={note} key={index}/>) }
         </div>
     )
 }

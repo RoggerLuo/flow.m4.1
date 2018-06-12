@@ -58,20 +58,16 @@ class MyEditor extends React.Component {
         }
     }
     save(){
-        const { itemId, editorState } = this.state
-        const note = { itemId, content: editorState.getCurrentContent().getPlainText() }
-        const unsaved = Model.get('editor').unsaved
-        // const saveToCache = () => {
-        //     const itemId = Date.parse(new Date()) / 1000
-        //     this.setState({ editorState: startFromScratch(), itemId }, () => {
-        //         window.localStorage.setItem('_editorNote',JSON.stringify({ content:'', itemId }))
-        //     })
-        // }
-        Model.dispatch({ type: 'editor/save', unsaved, itemId, editorState })
-        this.newNote()
-        // saveToCache()
-        // debugger
-        // console.log(startFromText(''))
+        // const { itemId, editorState } = this.state
+        // const note = { itemId, content: editorState.getCurrentContent().getPlainText() }
+        // const unsaved = Model.get('editor').unsaved
+        // Model.dispatch({ type: 'editor/save', unsaved, itemId, editorState })
+        // this.newNote()
+        const itemId = Date.parse(new Date())/1000
+        this.setState({ editorState: startFromScratch(), itemId }, () => {
+            window.localStorage.setItem('_editorNote',JSON.stringify({ content:'', itemId }))
+        })
+
     }
     newNote(){
         const itemId = Date.parse(new Date())/1000

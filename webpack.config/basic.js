@@ -21,33 +21,41 @@ module.exports = {
         }
     },
     module: {
-        rules: [
-            {
+        rules: [{
                 test: /\.(js|jsx)$/,
                 exclude: /(node_modules)/,
                 loader: 'babel-loader',
                 options: {
-                    presets: ['env','react'],
+                    presets: [
+                        [
+                            "env",
+                            {
+                                "targets": {
+                                    "browsers": "> 5%"
+                                }
+                            }
+                        ],
+                        "stage-3",
+                        "react"
+                    ],
                     plugins: [
                         "syntax-dynamic-import",
-                        "transform-regenerator",
-                        ["import", { "libraryName": "antd-mobile", "style": 'css' }]
+                        "transform-regenerator", ["import", { "libraryName": "antd-mobile", "style": 'css' }]
                     ]
                 }
             },
-            { 
-                test: /\.html$/, 
-                use: [ 'html-loader' ]
+            {
+                test: /\.html$/,
+                use: ['html-loader']
             },
             {
                 test: /\.(png|jpg|jpeg|gif|svg|eot|ttf|woff|woff2)$/,
                 loader: 'url-loader',
                 options: {
-                  limit: 8192
+                    limit: 8192
                 }
             }
         ]
     },
     context: path.join(__dirname, '')
 }
-

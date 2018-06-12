@@ -1,8 +1,21 @@
 {
-    "presets": ["env", "react", "stage-3"],
+    "presets": [
+        [
+            "env",
+            {
+                "targets":
+                {
+                    "browsers": "> 5%"
+                }
+            }
+        ], "react", "stage-3"
+    ],
     "plugins": [
         "syntax-dynamic-import",
-        "transform-regenerator",
-        ["import", { "libraryName": "antd-mobile", "style": "css" }]
+        "transform-regenerator", ["import",
+        {
+            "libraryName": "antd-mobile",
+            "style": "css"
+        }]
     ]
 }

@@ -16,7 +16,7 @@ function LazyComponent({ Component, visibility, unsaved, interfaces }){
             
             <div style={{zIndex:3,display:'flex',textAlign: 'center',lineHeight: '44px',position:'fixed',bottom:'15px',left:'15px',right:'15px'}}>
                 <div onClick={interfaces.closeEditor} style={{ flex: '1',backgroundColor: 'gold' }}>取消</div>
-                <div onClick={interfaces.save} style={{ flex: 1, backgroundColor: 'rgb(16, 142, 233)', color: 'white' }}>保存</div>
+                <div onClick={()=>interfaces.editorReplace({content:'test',itemId:123123123})} style={{ flex: 1, backgroundColor: 'rgb(16, 142, 233)', color: 'white' }}>保存</div>
             </div>
         </div>
     )
