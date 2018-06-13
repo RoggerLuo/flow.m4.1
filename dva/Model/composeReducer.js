@@ -3,9 +3,12 @@ import invariant from 'invariant'
 export default function({ reducers, state, namespace }) {
     const defaultState = state || {}
     invariant(namespace, `reducer's property namespace can't find`)
-    const reducersArray = Object.keys(reducers).map(type => //type就是model里各个reduce的key
-        handleAction(namespace + '/' + type, reducers[type]) // 自动把namespace加上
-    )
+    let reducersArray = []
+    if(reducers) { // 如果model里面不想写reducer:{}
+        reducersArray = Object.keys(reducers).map(type => //type就是model里各个reduce的key
+            handleAction(namespace + '/' + type, reducers[type]) // 自动把namespace加上
+        )
+    }
     injectDefaultReducer(namespace,reducersArray, reducers)
     const modelReducer = reduceReducers(...reducersArray) //数组变成 逗号分隔的参数传入，然后又转回来（可以看成克隆）
     return (state = defaultState, action) => modelReducer(state, action)
@@ -13,8 +16,10 @@ export default function({ reducers, state, namespace }) {
 }
 
 function injectDefaultReducer(namespace,reducersArray,reducers) {
-    const nameConflict = Object.keys(reducers).some(type => ['change', 'std'].indexOf(type) != -1)
-    invariant(!nameConflict, `reducer:[${namespace}]的方法名冲突，请勿使用"change"和"std"作为方法名`)
+    if(reducers) { // 如果model里面不想写reducer:{}
+        const nameConflict = Object.keys(reducers).some(type => ['change', 'std'].indexOf(type) != -1)
+        invariant(!nameConflict, `reducer:[${namespace}]的方法名冲突，请勿使用"change"和"std"作为方法名`)        
+    }
     reducersArray.push(handleAction(namespace + '/change', (state, { key, value }) => {
         const obj = {}
         obj[key] = value

@@ -5,3 +5,6 @@ html, body {
   word-break: break-all;
   -webkit-tap-highlight-color:rgba(0,0,0,0);
 }
+.highlight-font-color{
+    color:#1a98ff;
+}

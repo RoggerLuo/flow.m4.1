@@ -1,29 +1,37 @@
 import React from 'react'
 import Wrap from './Wrap'
-import Core from './Core'
+import PlaceholderCore from './PlaceholderCore'
+import SearchCore from './SearchCore'
 
 function Note({ selectedIndex, onSelect, noteCore, index, note }){
-    const isSelected = index === selectedIndex
-    // const select = () => {
-    //     if(isSelected) return
-    //     Model.reduce(state=>({ ...state, index }))
-    //     onSelect(note)
-    // }
-    //select={select}
+    // const isSelected = index === selectedIndex
+    if(note.displayContent) {
+        return (
+            <Wrap>
+                <SearchCore content={note.displayContent}/>
+            </Wrap>
+        )
+    }
     if(noteCore) {
         const LazyCore = noteCore
         return (
-            <Wrap isSelected={isSelected} >
+            <Wrap>
                 <LazyCore content={note.content} />
             </Wrap>
         )
     }
     return (
-        <Wrap isSelected={isSelected}>
-            <Core content={note.content}/>
+        <Wrap>
+            <PlaceholderCore content={note.content}/>
         </Wrap>
     )
 }
 
 export default Note
 
+// const select = () => {
+//     if(isSelected) return
+//     Model.reduce(state=>({ ...state, index }))
+//     onSelect(note)
+// }
+//select={select}

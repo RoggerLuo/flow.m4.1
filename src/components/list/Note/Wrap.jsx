@@ -3,11 +3,6 @@ import React from 'react'
 export default function({ isSelected, children }){
     let style = { cursor:'pointer' }
     let _class = ""
-    if(isSelected){
-        // style = { backgroundColor: '#ececec' } 
-        _class = "selectedNote"
-    }
-    //onClick={select} 
     return (
       <div style={style} className={_class} >
           <div style={{
@@ -24,3 +19,9 @@ export default function({ isSelected, children }){
       </div>
     )
 }
+
+// if(isSelected){
+    // style = { backgroundColor: '#ececec' } 
+    // _class = "selectedNote"
+// }
+//onClick={select} 

@@ -1,14 +1,30 @@
 import invariant from 'invariant'
-// import { getInitNotes } from './Note/Core'
-// getInitNotes()
+import countWeight from './countWeight.js'
+import highlight from './highlight.js'
+import flatListAndWeight from './flatListAndWeight.js'
+
 export default {
     namespace: 'list',
     state: {
         notes: [],
+        originalList: [],
         index: 0,
         noteCore: null
     },
     reducers: {
+        search(state,{ wordList }){
+            wordList = flatListAndWeight(wordList)
+            const displayList = []
+            state.notes.forEach(_note=>{
+                const note = countWeight(_note,wordList)
+                if(note.weight>0) {
+                    displayList.push(note)    
+                }
+            })
+            displayList.sort((a,b)=>b.weight - a.weight)
+            const searchList = displayList.slice(0,20).map(note => highlight(note,wordList))
+            return { ...state, originalList: state.notes, notes: searchList }
+        },
         fetch(state,{ notes }) {
             return { ...state, notes }
         },

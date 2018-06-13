@@ -7,6 +7,12 @@ Model.create(model)
 
 export default component
 export { importDraftjsCore }
+export function closeSearch(){
+    
+}
+export function listOnSearch(res){
+    Model.dispatch({ type: 'list/search', wordList: res })
+}
 export function fetchData(cb) {
     dva._store.dispatch({ type: 'list/fetchNotes', cb })
 }
