@@ -1,6 +1,6 @@
 import dva,{ Model } from 'dva'
 import model from './model'
-import Panel from './PanelContainer'
+import Panel from './Container'
 
 Model.create(model)
 

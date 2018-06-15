@@ -1,73 +1,75 @@
 import React from 'react'
-import { connect } from 'dva'
-import List,{ fetchData, closeSearch, listOnSearch, listAdd, listModify, listRemove, importDraftjsCore } from 'components/list'
+import { connect, Model } from 'dva'
+import { Toast } from 'antd-mobile'
+import SearchPanel, * as sp from 'components/searchPanel'
+import NoticeBar, * as nb from 'components/NoticeBar'
+import List, * as l from 'components/list'
+import SearchHistory from 'components/searchHistory'
 import Editor from 'components/editor'
 import Add from 'components/Add'
 import S from 'components/S'
-import SearchPanel,{ toggle, open } from 'components/searchPanel'
-import Search from 'components/search'
-import { Model } from 'dva'
-import NoticeBar, * as nb from 'components/NoticeBar'
 
+function onSearch(res) {
+    if (
+        (res.length == 1) && (res[0].length == 0)
+    ) { //没有搜索到
+        Toast.info('没有搜索到', 2, null, false)
+        return
+    }
+    l.renderSearchList(res)
+    nb.open(res)
+    window.scrollTo({ top: 0 }) //自动返回顶部
+}
+
+function closeSearchList() {
+    l.closeSearchList()
+    window.scrollTo({ top: 0 }) //自动返回顶部
+}
 class App extends React.Component {
     constructor(props) {
         super(props)
-        this.state={ editorVisible: false }
-        this.interfaces = {}
-        this.interfaces.listOnSearch = listOnSearch
-        this.interfaces.onSave = (note) => listAdd(note)
-        this.onSelect = (selectedNote) => {
-            this.interfaces.replace(selectedNote)
-        }
-        fetchData((notes)=>{
-            importDraftjsCore()
-        })
-        this.openSearch = () => {
-            open()
-            // this.interfaces.searchInput.focus() 
-        }
+        this.state = { editorVisible: false }
+        this.interfaces = { /* openEditor, editorFocus */ }
+        l.fetchData(notes => l.importDraftjsCore())
         this.openEditor = () => {
-            localStorage.setItem('windowScrollTop',window.scrollY)
+            localStorage.setItem('windowScrollTop', window.scrollY)
             const storageString = localStorage.getItem('_editorNote')
-            if(storageString) {
+            if (storageString) {
                 const note = JSON.parse(storageString)
-                this.interfaces.editorReplace(note)
-                Model.change('editor','unsaved',true)
-            }else{
-                this.interfaces.editorNew()
+                this.interfaces.openEditor(note)
+            } else {
+                this.interfaces.openEditor()
             }
-            this.setState({ editorVisible: true },() => { //为了先让editor出现，再focus
+            this.setState({ editorVisible: true }, () => { //为了先让editor出现，再focus
                 this.interfaces.editorFocus()
             })
         }
-        this.interfaces.closeEditor = () => {
-            this.setState({ editorVisible: false },()=>{
+        this.closeEditor = () => {
+            this.setState({ editorVisible: false }, () => {
                 const windowScrollTop = localStorage.getItem('windowScrollTop')
-                window.scrollTo({top:windowScrollTop})
-            })          
+                window.scrollTo({ top: windowScrollTop })
+            })
         }
     }
-    componentDidMount(){}
-    render(){
-        let listStyle = { flex:'1', display:'flex' }
-        if(this.state.editorVisible) {
+    render() {
+        let listStyle = { flex: '1', display: 'flex' }
+        if (this.state.editorVisible) {
             listStyle.display = 'none'
         }
         return (
             <div style={{height:'100%',display:'flex',flexDirection:'column'}}>
-                <NoticeBar onClick={closeSearch}/>
+                <NoticeBar onClick={closeSearchList}/>
                 <div style={listStyle}>
-                    <List onSelect={this.onSelect}/>
+                    <List />
                 </div>
-                <Editor interfaces={this.interfaces} visibility={this.state.editorVisible}/>
+                <Editor interfaces={this.interfaces} closeEditor={this.closeEditor} visibility={this.state.editorVisible} onSave={l.add}/>
                 <Add click={this.openEditor} />
-                <S click={this.openSearch}/>
-                <SearchPanel interfaces={this.interfaces}>
-                    <Search />
+                <S click={sp.open}/>
+                <SearchPanel onSearch={onSearch}>
+                    <SearchHistory />
                 </SearchPanel>
             </div>
         )
     }
 }
-
 export default App

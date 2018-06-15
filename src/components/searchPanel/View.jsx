@@ -3,7 +3,7 @@ import { SearchBar, Tag } from 'antd-mobile'
 import { close } from 'components/searchPanel'
 import { Model } from 'dva'
 
-export default function({ visibility, children, interfaces, search, text }) {
+export default function({ visibility, children, search, text }) {
     let searchBarStyle = { height: '44px', width: '100%', transition: 'all .3s ease-out', position: 'fixed', top:'-44px' }
     let wrapStyle = { transition: 'all .3s ease-out',backgroundColor:'rgba(236, 236, 236, 0.9)',position:'fixed', top:'100%',bottom:'0',left:'0', right:'0' }
     if(visibility) {
@@ -11,7 +11,7 @@ export default function({ visibility, children, interfaces, search, text }) {
         wrapStyle = { ...wrapStyle, top:'44px' }
     }
     return (
-        <div>
+        <div id="search-wrapper">
             <div style={searchBarStyle}>
                 <SearchBar 
                     value={text}
@@ -23,11 +23,10 @@ export default function({ visibility, children, interfaces, search, text }) {
                 />
             </div>
             <div style={wrapStyle}>
-                <div id="search-wrapper" style={{width:'100%',height:'100%',backgroundColor:'white'}}>
+                <div style={{width:'100%',height:'100%',backgroundColor:'white'}}>
                     { children }
                 </div>
             </div>
         </div>
     )
 }
-//interfaces.searchInput = ref

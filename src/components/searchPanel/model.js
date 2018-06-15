@@ -14,12 +14,12 @@ export default {
         }
     },
     effects: {
-        * search({ queryStr, onSearchResult }, { fetch, call, put }) {
+        * search({ queryStr, onSearch }, { fetch, call, put }) {
             if(queryStr === '') {
                 return
             }
-            const res = yield call(fetch, `search/${queryStr}`) //没写完
-            onSearchResult && onSearchResult(res)
+            const res = yield call(fetch, `search/${queryStr}`)
+            onSearch && onSearch(res)
         },        
         * save({ unsaved, editorState, itemId }, { fetch, call, put }) {
             invariant(!!itemId,'itemId没有传入')

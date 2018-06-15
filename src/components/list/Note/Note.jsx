@@ -7,7 +7,7 @@ function Note({ selectedIndex, onSelect, noteCore, index, note }){
     // const isSelected = index === selectedIndex
     if(note.displayContent) {
         return (
-            <Wrap>
+            <Wrap note={note}>
                 <SearchCore content={note.displayContent}/>
             </Wrap>
         )
@@ -15,13 +15,13 @@ function Note({ selectedIndex, onSelect, noteCore, index, note }){
     if(noteCore) {
         const LazyCore = noteCore
         return (
-            <Wrap>
+            <Wrap note={note}>
                 <LazyCore content={note.content} />
             </Wrap>
         )
     }
     return (
-        <Wrap>
+        <Wrap note={note}>
             <PlaceholderCore content={note.content}/>
         </Wrap>
     )

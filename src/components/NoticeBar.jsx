@@ -7,28 +7,29 @@ Model.create({
 })
 function mapToStore(state){
     return {
-        content: state.content,
-        visibility: state.visibility
+        content: state.noticeBar.content,
+        visibility: state.noticeBar.visibility
     }
 }
 export default connect(mapToStore)(function({ onClick, visibility, content }){
     if(!visibility) return null
+    const _onClick = () => {
+        onClick()
+        Model.change('noticeBar','visibility',false)
+    }
     return (
-        <div>
-            <div style={{height:'36px',width:'100%'}}></div>
+        <div style={{height:'36px',width:'100%'}}>
             <div style={{position:'fixed',top:0,left:0,right:0,height:'36px'}}>
-                <NoticeBar onClick={onClick} mode="closable" icon={null}>{content}</NoticeBar>
+                <NoticeBar marqueeProps={{loop:true,fps:20,style:{fontSize:'15px'}}} onClick={_onClick} mode="closable" icon={null}>{content}</NoticeBar>
             </div>
         </div>
     )  
 })
-
-export function loadContent(content){
-    Model.change('noticeBar','content',content)
-}
-export function open(){
+export function open(res){
+    let content = ''
+    res.forEach(group=>{
+        content = group.map(entry=>entry.word).join(' ')
+    })
     Model.change('noticeBar','visibility',true)    
-}
-export function close(){
-    Model.change('noticeBar','visibility',false)        
+    Model.change('noticeBar','content',content)
 }

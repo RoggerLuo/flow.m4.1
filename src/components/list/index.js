@@ -7,21 +7,20 @@ Model.create(model)
 
 export default component
 export { importDraftjsCore }
-export function closeSearch(){
-    
+export function closeSearchList(){
+    Model.reduce('list',(state)=>{
+        return { ...state, notes: state.originalList }
+    })
 }
-export function listOnSearch(res){
+export function renderSearchList(res){
     Model.dispatch({ type: 'list/search', wordList: res })
 }
 export function fetchData(cb) {
     dva._store.dispatch({ type: 'list/fetchNotes', cb })
 }
-export function listAdd(note) {
+export function add(note) {
     dva._store.dispatch({ type: 'list/add', note })
 }
-export function listModify(note) {
-    dva._store.dispatch({ type: 'list/modify', note })
-}
-export function listRemove(itemId,callback) {
+export function remove(itemId,callback) {
     dva._store.dispatch({ type: 'list/remove', itemId, callback })
 }
