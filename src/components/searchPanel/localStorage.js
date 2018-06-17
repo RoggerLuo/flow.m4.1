@@ -1,4 +1,5 @@
 export function set(value){
+    const arr = value.split(' ')
     let _searchHistory = localStorage.getItem('_searchHistory')
     let object
     if(!_searchHistory) {
@@ -6,13 +7,13 @@ export function set(value){
     }else{
         object = JSON.parse(_searchHistory)
     }
-
-    if(object[value]) {
-        object[value] += 20
-    }else{
-        object[value] = 20
-    }
-
+    arr.forEach(word=>{
+        if(object[word]) {
+            object[word] += 20
+        }else{
+            object[word] = 20
+        }        
+    })
     Object.keys(object).forEach(key=>{
         object[key] -= 1
     })    

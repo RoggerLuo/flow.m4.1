@@ -1,15 +1,17 @@
 import React from 'react'
 import './style.css'
-import { SearchBar, Tag } from 'antd-mobile'
-
-export default function() {
-    function onChange(){}
+import { set, get } from './localStorage'
+const data = get()
+export default function({onClick}) {
     return (
-        <div>
-            <div className="tag-container">
-                <Tag onChange={onChange}>Callback</Tag>
-                <Tag onChange={onChange}>Callback</Tag>
-            </div>
+        <div className="tag-container">
+            {data.map((word,ind)=>{
+                return (
+                    <div onClick={(e)=>onClick(e,word)} style={{padding:"5px 10px", color:"#888888"}} key={ind}>
+                        {word}
+                    </div>
+                )
+            })}
         </div>
     )
 }

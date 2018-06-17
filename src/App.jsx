@@ -4,7 +4,6 @@ import { Toast } from 'antd-mobile'
 import SearchPanel, * as sp from 'components/searchPanel'
 import NoticeBar, * as nb from 'components/NoticeBar'
 import List, * as l from 'components/list'
-import SearchHistory from 'components/searchHistory'
 import Editor from 'components/editor'
 import Add from 'components/Add'
 import S from 'components/S'
@@ -31,17 +30,11 @@ class App extends React.Component {
         this.state = { editorVisible: false }
         this.interfaces = { /* openEditor, editorFocus */ }
         l.fetchData(notes => l.importDraftjsCore())
-        this.openEditor = () => {
+        this.edit = (note) => {
             localStorage.setItem('windowScrollTop', window.scrollY)
-            const storageString = localStorage.getItem('_editorNote')
-            if (storageString) {
-                const note = JSON.parse(storageString)
-                this.interfaces.openEditor(note)
-            } else {
-                this.interfaces.openEditor()
-            }
+            this.interfaces.editorReload(note)
             this.setState({ editorVisible: true }, () => { //为了先让editor出现，再focus
-                this.interfaces.editorFocus()
+                // this.interfaces.editorFocus()
             })
         }
         this.closeEditor = () => {
@@ -49,6 +42,14 @@ class App extends React.Component {
                 const windowScrollTop = localStorage.getItem('windowScrollTop')
                 window.scrollTo({ top: windowScrollTop })
             })
+        }
+        this.add = () => {
+            if (localStorage.getItem('_editorNote')) {
+                let note = JSON.parse(localStorage.getItem('_editorNote'))   
+                this.edit(note)                
+            }else{
+                this.edit()                
+            }
         }
     }
     render() {
@@ -60,14 +61,12 @@ class App extends React.Component {
             <div style={{height:'100%',display:'flex',flexDirection:'column'}}>
                 <NoticeBar onClick={closeSearchList}/>
                 <div style={listStyle}>
-                    <List />
+                    <List edit={this.edit}/>
                 </div>
                 <Editor interfaces={this.interfaces} closeEditor={this.closeEditor} visibility={this.state.editorVisible} onSave={l.add}/>
-                <Add click={this.openEditor} />
+                <SearchPanel onSearch={onSearch} />
+                <Add click={this.add} />
                 <S click={sp.open}/>
-                <SearchPanel onSearch={onSearch}>
-                    <SearchHistory />
-                </SearchPanel>
             </div>
         )
     }

@@ -19,7 +19,8 @@ export default function({ visibility, children, search, text }) {
                     onSubmit={search}
                     onBlur={close} 
                     ref={ref=>{ Model.change('searchPanel','ref',ref)}}
-                    placeholder="Search" maxLength={8} 
+                    placeholder="Search" 
+                    maxLength={30} 
                 />
             </div>
             <div style={wrapStyle}>

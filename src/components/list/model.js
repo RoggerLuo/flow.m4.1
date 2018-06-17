@@ -15,7 +15,7 @@ export default {
         search(state,{ wordList }){
             wordList = flatListAndWeight(wordList)
             const displayList = []
-            state.notes.forEach(_note=>{
+            state.originalList.forEach(_note=>{
                 const note = countWeight(_note,wordList)
                 if(note.weight>0) {
                     displayList.push(note)    
@@ -23,10 +23,10 @@ export default {
             })
             displayList.sort((a,b)=>b.weight - a.weight)
             const searchList = displayList.slice(0,20).map(note => highlight(note,wordList))
-            return { ...state, originalList: state.notes, notes: searchList }
+            return { ...state, notes: searchList }
         },
         fetch(state,{ notes }) {
-            return { ...state, notes }
+            return { ...state, notes, originalList: notes }
         },
         add(state,{ note }) {
             const notes = [note,...state.notes]

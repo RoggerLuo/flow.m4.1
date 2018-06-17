@@ -5,14 +5,14 @@ const Add = ({ click }) => {
             style={{
                 textAlign:'center',
                 position:'fixed',
-                bottom:'15px',
+                bottom:'25px',
                 left:'25px',
                 backgroundColor:'gold',
                 fontSize:'26px',
-                lineHeight:'46px',
-                height:'46px',
-                width:'46px',
-                borderRadius:'23px',
+                lineHeight:'52px',
+                height:'52px',
+                width:'52px',
+                borderRadius:'27px',
                 zIndex:1
             }}
             onClick={click}

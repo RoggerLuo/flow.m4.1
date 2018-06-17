@@ -6,14 +6,14 @@ const Search = ({ click }) => {
             style={{
                 textAlign:'center',
                 position:'fixed',
-                bottom:'75px',
+                bottom:'95px',
                 left:'25px',
                 backgroundColor:'#108ee9',
                 fontSize:'16px',
-                lineHeight:'46px',
-                height:'46px',
-                width:'46px',
-                borderRadius:'23px',
+                lineHeight:'52px',
+                height:'52px',
+                width:'52px',
+                borderRadius:'27px',
                 color:'white',
                 zIndex:1
 

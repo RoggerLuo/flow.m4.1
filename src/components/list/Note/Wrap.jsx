@@ -4,13 +4,9 @@ class NoteWrap extends React.Component {
     constructor(props) {
         super(props)
         this.ref = {}
+        this.flag = false
     }
     componentDidMount() {
-        let timeout
-        let flag = false
-        const fn = (e) => {
-            flag = false
-        }
         /* 
             这里不能写 const note = this.props.note,
             删除了note之后，wrap的值和coreNote的值就不同了,
@@ -19,20 +15,38 @@ class NoteWrap extends React.Component {
             因为this.props会实时更新的，
             需要在每次touchstart的时候 重新获取值，
         */
-        this.ref.addEventListener('touchstart', (event) => {
-            if(flag) {
-                if(confirm(`要删除"${this.props.note.content.slice(0,15)}"吗？`)) {
-                    Model.dispatch({ type: 'list/deleteNote', id: this.props.note.itemId })
-                    Model.dispatch(({ type: 'list/remove', itemId: this.props.note.itemId }))
-                }
-            }
-            flag = true
-            timeout = setTimeout(fn, 300) //长按时间超过800ms，则执行传入的方法
-        }, { passive: true })
+        // this.ref.addEventListener('touchstart', (event) => {
+        //     if(this.flag) {
+        //         this.props.edit(this.props.note)
+        //         this.flag = false
+        //     }else{
+        //         this.flag = true
+        //         setTimeout(()=>{this.flag=false}, 300) //长按时间超过800ms，则执行传入的方法                
+        //     }
+        // }, { passive: true })
     }
     render() {
+        const click = (e) => {
+            this.props.edit(this.props.note)
+
+            // if(this.flag) {
+            //     this.props.edit(this.props.note)
+            //     this.flag = false
+            // }else{
+            //     this.flag = true
+            //     setTimeout(()=>{this.flag=false}, 300) //长按时间超过800ms，则执行传入的方法                
+            // }
+            // e.stopPropagation()
+            // e.preventDefault()
+        }
+        const del = () => {
+            if(confirm(`要删除"${this.props.note.content.slice(0,15)}"吗？`)) {
+                Model.dispatch({ type: 'list/deleteNote', id: this.props.note.itemId })
+                Model.dispatch(({ type: 'list/remove', itemId: this.props.note.itemId }))
+            }
+        }
         return (
-            <div>
+            <div onClick={click}>
                 <div
                     ref={ref=>{ this.ref = ref }}
                     style={{
@@ -45,7 +59,9 @@ class NoteWrap extends React.Component {
                 >
                     {this.props.children}
                 </div>
-                <div style={{widht:'100%',height:'1px',borderTop:'0.5px solid #ccc'}}></div>
+                <div style={{widht:'100%',height: '1px',borderBottom:'0.5px solid #ccc',textAlign:'right',color:'#e2e2e2'}}>
+                    <span onClick={del} style={{fontFamily: 'fantasy',position:'relative',bottom:'24px',fontSize:'20px',padding: '5px 12px 5px 0px'}}>x</span>
+                </div>
             </div>
         )
     }

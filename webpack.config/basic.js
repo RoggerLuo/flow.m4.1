@@ -27,14 +27,7 @@ module.exports = {
                 loader: 'babel-loader',
                 options: {
                     presets: [
-                        [
-                            "env",
-                            {
-                                "targets": {
-                                    "browsers": "> 5%"
-                                }
-                            }
-                        ],
+                        "env", /* 如果设置"targets": {"browsers": "> 5%"}就不会转let和const，我的mac safari浏览器就会报错 */
                         "stage-3",
                         "react"
                     ],

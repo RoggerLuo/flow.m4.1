@@ -22,10 +22,13 @@ class MyEditor extends React.Component {
         this.save = this.save.bind(this)
         this.replace = this.replace.bind(this)
         this.newNote = this.newNote.bind(this)
-
+        this.replaceContent = this.replaceContent.bind(this)
+        
+        // this.interfaces.editorReplace = this.replace
+        this.interfaces.replaceContent = this.replaceContent
         this.interfaces.editorSave = this.save
         this.interfaces.editorFocus = this.focus
-        this.interfaces.openEditor = (startNote) => {
+        this.interfaces.editorReload = (startNote) => {
             if(startNote) {
                 this.replace(startNote)
             }else{
@@ -40,6 +43,20 @@ class MyEditor extends React.Component {
             window.localStorage.setItem('_editorNote',JSON.stringify({ content:'', itemId }))
         })
     }
+    replaceContent(tagValue){
+        let text = this.oldText
+        let str
+        if(text[text.length-1]=='-') {
+            str = ` ${tagValue} -`
+        }else{
+            str = `\n- ${tagValue} -`
+        }
+
+        this.oldText += str
+        const editorState = startFromText(this.oldText)
+        // this.oldText = editorState.getCurrentContent().getPlainText()
+        this.setState({ editorState })
+    }
     replace(note,callback){
         const editorState = startFromText(note.content)
         this.oldText = editorState.getCurrentContent().getPlainText()
@@ -51,8 +68,8 @@ class MyEditor extends React.Component {
             if (newText !== this.oldText) {
                 this.oldText = newText
                 this.props.onChange && this.props.onChange({ content:newText, itemId: this.state.itemId })
+                // 这一句应该放在外部
                 window.localStorage.setItem('_editorNote',JSON.stringify({content:newText,itemId:this.state.itemId}) )
-                Model.change('editor', 'unsaved', true)
             }
         })
     }
@@ -75,7 +92,7 @@ class MyEditor extends React.Component {
     }
     
     render() {
-        let style = { fontSize:'17px', cursor:'text', height:'100%' }
+        let style = { fontSize:'17px', cursor:'text', height:'100%', overflow:'auto' }
         if(this.props.unsaved){
             style = { ...style, backgroundImage: `url(${img})` }            
         }

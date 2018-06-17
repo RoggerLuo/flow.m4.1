@@ -2,11 +2,10 @@ import React from 'react'
 import { connect } from 'dva'
 import Note from './Note/Note'
 
-function Notes({ onSelect, notes, selectedIndex, noteCore }){
-    const publicParams = { selectedIndex, onSelect, noteCore }
+function Notes({ notes, ...restParameters }){ //onSelect, , selectedIndex, noteCore, edit
     return (
         <div style={{width:'100%',backgroundColor:'white'}}>
-            { notes.slice(0,30).map((note,index) => <Note {...publicParams} index={index} note={note} key={index}/>) }
+            { notes.slice(0,30).map((note,index) => <Note {...restParameters} index={index} note={note} key={index}/>) }
         </div>
     )
 }
@@ -20,3 +19,5 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(Notes)
+
+//const publicParams = { selectedIndex, onSelect, noteCore, edit }
