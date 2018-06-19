@@ -15,35 +15,20 @@ class NoteWrap extends React.Component {
             因为this.props会实时更新的，
             需要在每次touchstart的时候 重新获取值，
         */
-        // this.ref.addEventListener('touchstart', (event) => {
-        //     if(this.flag) {
-        //         this.props.edit(this.props.note)
-        //         this.flag = false
-        //     }else{
-        //         this.flag = true
-        //         setTimeout(()=>{this.flag=false}, 300) //长按时间超过800ms，则执行传入的方法                
-        //     }
-        // }, { passive: true })
     }
     render() {
         const click = (e) => {
             this.props.edit(this.props.note)
-
-            // if(this.flag) {
-            //     this.props.edit(this.props.note)
-            //     this.flag = false
-            // }else{
-            //     this.flag = true
-            //     setTimeout(()=>{this.flag=false}, 300) //长按时间超过800ms，则执行传入的方法                
-            // }
-            // e.stopPropagation()
-            // e.preventDefault()
+            e.stopPropagation()
+            e.preventDefault()
         }
-        const del = () => {
+        const del = (e) => {
             if(confirm(`要删除"${this.props.note.content.slice(0,15)}"吗？`)) {
                 Model.dispatch({ type: 'list/deleteNote', id: this.props.note.itemId })
                 Model.dispatch(({ type: 'list/remove', itemId: this.props.note.itemId }))
             }
+            e.stopPropagation()
+            e.preventDefault()
         }
         return (
             <div onClick={click}>

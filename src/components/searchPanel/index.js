@@ -3,7 +3,6 @@ import model from './model'
 import Panel from './Container'
 
 Model.create(model)
-
 export default Panel
 
 export function close() {

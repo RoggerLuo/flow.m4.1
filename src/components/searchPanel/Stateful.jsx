@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { Model } from 'dva'
 class Stateful extends React.Component { 
     constructor(props) {
         super(props)

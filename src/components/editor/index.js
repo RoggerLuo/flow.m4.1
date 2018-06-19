@@ -4,7 +4,7 @@ import model from './model'
 import LazyComponent from './LazyComponent'
 import './style.css'
 
-import(/* webpackChunkName: "Editor" */ './Editor').then(_Editor => {
+import(/* webpackChunkName: "Editor" */ './Container').then(_Editor => {
     const Editor = _Editor.default
     Model.change('editor','component',Editor)
 }).catch(error => 'An error occurred while loading the editor')

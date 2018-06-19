@@ -1,15 +1,14 @@
 import React from 'react'
 import { startFromScratch, startFromText } from 'components/draftEditor'
-import { Editor } from 'draft-js'
-import img from './bg.png'
 import moveSelectionToEnd from './moveSelectionToEnd'
 import { Model } from 'dva'
+import View from './View'
 /*
     向上传递
     this.props.interfaces.editorFocus
     this.props.interfaces.save
 */
-class MyEditor extends React.Component {
+class Editor extends React.Component {
     constructor(props) {
         super(props)
         this.state = { editorState: startFromScratch(), itemId: Date.parse(new Date())/1000, inputDOM: null }
@@ -51,10 +50,8 @@ class MyEditor extends React.Component {
         }else{
             str = `\n- ${tagValue} -`
         }
-
         this.oldText += str
         const editorState = startFromText(this.oldText)
-        // this.oldText = editorState.getCurrentContent().getPlainText()
         this.setState({ editorState })
     }
     replace(note,callback){
@@ -90,24 +87,8 @@ class MyEditor extends React.Component {
         }
         Model.dispatch({ type: 'editor/save', note, callback })
     }
-    
     render() {
-        let style = { fontSize:'17px', cursor:'text', height:'100%', overflow:'auto' }
-        if(this.props.unsaved){
-            style = { ...style, backgroundImage: `url(${img})` }            
-        }
-        return (
-            <div style={style}>
-                <div style={{ padding: '15px'}}>
-                <Editor 
-                    editorState={this.state.editorState} 
-                    onChange={this.onChange} 
-                    ref={this.setRef} 
-                    placeholder={'Do less, get more'}
-                />
-                </div>
-            </div>
-        )
+        return <View editorState={this.state.editorState} onChange={this.onChange} setRef={this.setRef}/>
     }
 }
-export default MyEditor
+export default Editor

@@ -17,17 +17,17 @@ function product(basic){
             use: [ 'css-loader' ]
         })
     })
-    basic.optimization = {
-        splitChunks: {
-            cacheGroups: {
-                vendor: {
-                    chunks: 'all',
-                    name: 'draftjs',
-                    test: /draft-js/, //直接写module名
-                }
-            }
-        }
-    }
+    // basic.optimization = {
+    //     splitChunks: {
+    //         cacheGroups: {
+    //             vendor: {
+    //                 chunks: 'all',
+    //                 name: 'draftjs',
+    //                 test: /draft-js/, //直接写module名
+    //             }
+    //         }
+    //     }
+    // }
     basic.plugins = [
         new CleanWebpackPlugin(['dist'],{ root: projectRoot }),
         new HtmlWebpackPlugin({

@@ -2,16 +2,14 @@ import React from 'react'
 import { connect, Model } from 'dva'
 import View from './View'
 import Stateful from './Stateful'
-import { set, get } from './localStorage'
-import History from './History'
-function Panel({ visibility, children, text, onSearch }) {
+import Tags from 'components/history'
+function Panel({ visibility, children, text, onSearch, historyData }) {
     const search = (value) => {
         if(value == ' ') return 
         if(value == '') return 
         const queryStr = value.toLowerCase() 
         Model.dispatch({ type: 'searchPanel/search', queryStr, onSearch })
         Model.change('searchPanel','text','')
-        set(queryStr)
     }
     const toggle = () => dispatch({ type: 'searchPanel/toggle' })
     const onClick = (e,val) => {
@@ -24,7 +22,7 @@ function Panel({ visibility, children, text, onSearch }) {
     return (
         <Stateful>
             <View visibility={visibility} search={search} text={text}>
-                <History onClick={onClick}/>   
+                <Tags onClick={onClick}/>
             </View>
         </Stateful>
     )

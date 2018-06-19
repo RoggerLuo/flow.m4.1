@@ -29,6 +29,20 @@ export default {
             return { ...state, notes, originalList: notes }
         },
         add(state,{ note }) {
+            let ind
+            if(
+                state.notes.some((_note,i)=>{
+                    if(_note.itemId == note.itemId) {
+                        ind = i
+                        _note.content = note.content
+                        return true                        
+                    }
+                })
+            ){
+                const notes = [...state.notes]
+                notes[ind] = note
+                return { ...state, notes }
+            }
             const notes = [note,...state.notes]
             return { ...state, notes, index: 0 }
         },

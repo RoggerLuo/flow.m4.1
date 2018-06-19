@@ -7,6 +7,7 @@ import List, * as l from 'components/list'
 import Editor from 'components/editor'
 import Add from 'components/Add'
 import S from 'components/S'
+import * as h from 'components/history'
 
 function onSearch(res) {
     if (
@@ -51,6 +52,9 @@ class App extends React.Component {
                 this.edit()                
             }
         }
+    }
+    componentDidMount(){
+        h.fetch()
     }
     render() {
         let listStyle = { flex: '1', display: 'flex' }

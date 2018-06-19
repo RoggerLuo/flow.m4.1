@@ -1,29 +1,6 @@
 import React from 'react'
 import { connect, Model } from 'dva'
-function get(){
-    const _searchHistory = localStorage.getItem('_searchHistory')
-    if(!_searchHistory) return []
-    const history = JSON.parse(_searchHistory)
-    return Object
-        .keys(history)
-        .map(key=>({ word:key, count:history[key] }))
-        .sort((a,b)=> b.count - a.count)
-        .map(entry=>entry.word)
-}
-const data = get()
-function Tags({ onClick }) {
-    return (
-        <div className="tag-container">
-            {data.map((word,ind)=>{
-                return (
-                    <div onClick={(e)=>onClick(e,word)} style={{padding:"5px 10px", color:"#888888"}} key={ind}>
-                        {word}
-                    </div>
-                )
-            })}
-        </div>
-    )
-}
+import Tags from 'components/history'
 function LazyComponent({ Component, interfaces, visibility, onSave, closeEditor, tagsPanelVisibility }){
     if(!Component) {
         return (<div></div>)
@@ -44,7 +21,6 @@ function LazyComponent({ Component, interfaces, visibility, onSave, closeEditor,
     const closeTags = e => {
         Model.change('editor','tagsPanelVisibility',false)
         e.stopPropagation()
-
     }
     return (
         <div id="editor-container" style={editorStyle} onClick={()=>interfaces.editorFocus()}>
@@ -61,7 +37,6 @@ function LazyComponent({ Component, interfaces, visibility, onSave, closeEditor,
                     close
                 </div>
             </div>):null}
-
             <div style={{zIndex:3,display:'flex',textAlign: 'center',lineHeight: '44px',position:'fixed',bottom:'0px',left:'0px',right:'0px'}}>
                 <div onClick={closeEditor} style={{ flex: '1',backgroundColor: '#f3f3f3' }}>取消</div>
                 <div onClick={()=>interfaces.editorSave()} style={{ flex: 1, backgroundColor: 'rgb(16, 142, 233)', color: 'white' }}>保存</div>
