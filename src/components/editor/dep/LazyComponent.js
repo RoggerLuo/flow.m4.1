@@ -39,7 +39,7 @@ function LazyComponent({ Component, interfaces, visibility, onSave, closeEditor,
             </div>):null}
             <div style={{zIndex:3,display:'flex',textAlign: 'center',lineHeight: '44px',position:'fixed',bottom:'0px',left:'0px',right:'0px'}}>
                 <div onClick={closeEditor} style={{ flex: '1',backgroundColor: '#f3f3f3' }}>取消</div>
-                <div onClick={()=>interfaces.editorSave()} style={{ flex: 1, backgroundColor: 'rgb(16, 142, 233)', color: 'white' }}>保存</div>
+                <div onClick={(e)=>interfaces.editorSave(e)} style={{ flex: 1, backgroundColor: 'rgb(16, 142, 233)', color: 'white' }}>保存</div>
             </div>
         </div>
     )

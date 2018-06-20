@@ -8,22 +8,21 @@ class NoteWrap extends React.Component {
     }
     componentDidMount() {
         /* 
-            这里不能写 const note = this.props.note,
-            删除了note之后，wrap的值和coreNote的值就不同了,
-            一直是第一次mount时的值
-
-            因为this.props会实时更新的，
-            需要在每次touchstart的时候 重新获取值，
+        this.props.value的值，传入函数，就不能变了
+        要引用传递不要按值传递
         */
     }
     render() {
         const click = (e) => {
-            this.props.edit(this.props.note)
+            this.props.clickNote(this.props.note)
             e.stopPropagation()
             e.preventDefault()
         }
         const del = (e) => {
-            if(confirm(`要删除"${this.props.note.content.slice(0,15)}"吗？`)) {
+            let text = this.props.note.content.slice(0,30)
+            text = text.replace(/\n/g, ' ') 
+            text = text.replace(/\r/g, '')             
+            if(confirm(`要删除"${text}"吗？`)) {
                 Model.dispatch({ type: 'list/deleteNote', id: this.props.note.itemId })
                 Model.dispatch(({ type: 'list/remove', itemId: this.props.note.itemId }))
             }

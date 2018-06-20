@@ -32,7 +32,7 @@ function dev(basic) {
         contentBase: './dist', // static server
         inline: true,
         hot: true,
-        host: "192.168.1.5" // , // "192.168.1.5", //"localhost" //
+        host:"192.168.1.5",// "172.16.1.178" // , //  //"localhost" //
     }
     /*basic.devServer.proxy = {
         '/': {

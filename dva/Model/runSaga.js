@@ -1,5 +1,4 @@
 import { put, takeEvery, call } from 'redux-saga/effects'
-// import fetch from './fetch'
 import invariant from 'invariant'
 
 export default (sagaMiddleware,namespace,config) => (key, cb) => {
@@ -12,7 +11,7 @@ export default (sagaMiddleware,namespace,config) => (key, cb) => {
             return put(action)
         }
         function* saga(action) {
-            yield cb(action,{ ...config.sagaInjection, put: prefixed_put, call }) //fetch
+            yield cb(action,{ ...config.sagaInjection, put: prefixed_put, call }) 
         }
         return function*() {
             yield takeEvery(`${namespace}/${key}`,saga)

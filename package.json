@@ -7,8 +7,8 @@
     "start": "webpack-dev-server --progress --color",
     "build": "node ./webpack.config/build.js",
     "build-test": "node ./webpack.config/build-test.js",
-    "test": "cross-env NODE_ENV=test node dva/testfile-iter.js | grep spec.js$ | xargs -n1 -I {} tape -r babel-register -r ./dva/test-helper.js {} | tap-difflet",
-    "dva-test": "cross-env NODE_ENV=test tape -r babel-register -r ./dva/test-helper.js */dva_test/*.spec.js | tap-difflet"
+    "test": "cross-env NODE_ENV=test node dva/test/walkFiles.js | grep spec.js$ | xargs -n1 -I {} tape -r babel-register -r ./dva/test/inject.js {} | tap-difflet",
+    "dva-test": "cross-env NODE_ENV=test tape -r babel-register -r ./dva/test/inject.js */test/*.spec.js | tap-difflet"
   },
   "author": "",
   "license": "ISC",

@@ -1,6 +1,6 @@
 import invariant from 'invariant'
 
-export default function(baseUrl) {
+export default function({ baseUrl }) {
     return (url, { ...options }) => {
         invariant(!!baseUrl,`Fetch需要传入一个baseUrl配置项`)
         url = `${baseUrl}/${url}`
@@ -16,9 +16,7 @@ export default function(baseUrl) {
         return fetch(url, options)
             .then(checkStatus)
             .then(parseJSON)
-            .catch(err => {
-                console.log(err)
-            })
+            .catch(err => err.message)
     }
 }
 

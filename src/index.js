@@ -6,7 +6,7 @@ import App from './App'
 import './global.css'
 import model from './model'
 
-const fetch = Fetch(`http://47.75.9.249:5555`)
+const fetch = Fetch({ baseUrl: `http://47.75.9.249:5555` })
 dva.start({ sagaInjection: { fetch } })
 
 Model.create(model)

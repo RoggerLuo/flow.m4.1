@@ -8,6 +8,8 @@ import Editor from 'components/editor'
 import Add from 'components/Add'
 import S from 'components/S'
 import * as h from 'components/history'
+import TagsPanel from 'components/TagsPanel'
+import Buttons from 'components/Buttons'
 
 function onSearch(res) {
     if (
@@ -29,50 +31,56 @@ class App extends React.Component {
     constructor(props) {
         super(props)
         this.state = { editorVisible: false }
-        this.interfaces = { /* openEditor, editorFocus */ }
+        this.editorTube = {/* edit */}
         l.fetchData(notes => l.importDraftjsCore())
-        this.edit = (note) => {
+        this.startEditing = (note) => {
             localStorage.setItem('windowScrollTop', window.scrollY)
-            this.interfaces.editorReload(note)
-            this.setState({ editorVisible: true }, () => { //为了先让editor出现，再focus
-                // this.interfaces.editorFocus()
-            })
+            this.editorTube.edit(note)
+            this.setState({ editorVisible: true })
         }
-        this.closeEditor = () => {
+        this.editorOnSave = (note) => {
+            l.add(note)
+            this.closeEditorPanel()
+        }
+        this.closeEditorPanel = () => {
             this.setState({ editorVisible: false }, () => {
-                const windowScrollTop = localStorage.getItem('windowScrollTop')
-                window.scrollTo({ top: windowScrollTop })
+                window.scrollTo({ top: localStorage.getItem('windowScrollTop') })
             })
         }
         this.add = () => {
-            if (localStorage.getItem('_editorNote')) {
-                let note = JSON.parse(localStorage.getItem('_editorNote'))   
-                this.edit(note)                
-            }else{
-                this.edit()                
-            }
+            this.startEditing(false)
         }
     }
     componentDidMount(){
         h.fetch()
     }
     render() {
-        let listStyle = { flex: '1', display: 'flex' }
+        let listStyle = { display: 'block' }
+        let editorStyle = { width:'100%', position:'fixed', top:0, bottom:'44px', left:0, right:0, zIndex: 2, backgroundColor:'white' }
         if (this.state.editorVisible) {
             listStyle.display = 'none'
+        }else{
+            editorStyle = { ...editorStyle, display: 'none' }   
         }
         return (
             <div style={{height:'100%',display:'flex',flexDirection:'column'}}>
-                <NoticeBar onClick={closeSearchList}/>
+                
                 <div style={listStyle}>
-                    <List edit={this.edit}/>
+                    <List clickNote={this.startEditing}/>
+                    <NoticeBar onClose={closeSearchList}/>
+                    <Add click={this.add} />
+                    <S click={sp.open}/>
                 </div>
-                <Editor interfaces={this.interfaces} closeEditor={this.closeEditor} visibility={this.state.editorVisible} onSave={l.add}/>
+                
+                <div style={editorStyle} onClick={()=>this.editorTube.focus()}>
+                    <Editor onSave={this.editorOnSave} tube={this.editorTube}/>
+                    <TagsPanel tube={this.editorTube} closeEditorPanel={this.closeEditorPanel}/>
+                    <Buttons cancel={this.closeEditorPanel} save={()=>this.editorTube.save()}/>
+                </div>
                 <SearchPanel onSearch={onSearch} />
-                <Add click={this.add} />
-                <S click={sp.open}/>
             </div>
         )
     }
 }
 export default App
+// <Editor tube={this.editorTube} visibility={this.state.editorVisible} onSave={editorOnSave}/>

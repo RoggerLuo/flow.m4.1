@@ -23,17 +23,11 @@ class Editor extends React.Component {
         this.newNote = this.newNote.bind(this)
         this.replaceContent = this.replaceContent.bind(this)
         
-        // this.interfaces.editorReplace = this.replace
         this.interfaces.replaceContent = this.replaceContent
         this.interfaces.editorSave = this.save
         this.interfaces.editorFocus = this.focus
-        this.interfaces.editorReload = (startNote) => {
-            if(startNote) {
-                this.replace(startNote)
-            }else{
-                this.newNote()
-            }
-        }
+        this.interfaces.editorLoad = this.replace
+        this.interfaces.editorNew = this.newNote
     }
     newNote(){
         const itemId = Date.parse(new Date())/1000
@@ -77,7 +71,7 @@ class Editor extends React.Component {
             })
         }
     }
-    save(){
+    save(e){
         const { itemId, editorState } = this.state
         const note = { itemId, content: editorState.getCurrentContent().getPlainText() }
         const callback = (note) => {
@@ -86,6 +80,8 @@ class Editor extends React.Component {
             this.props.closeEditor()
         }
         Model.dispatch({ type: 'editor/save', note, callback })
+        e.stopPropagation()
+        e.preventDefault()
     }
     render() {
         return <View editorState={this.state.editorState} onChange={this.onChange} setRef={this.setRef}/>

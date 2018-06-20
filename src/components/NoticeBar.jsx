@@ -11,10 +11,10 @@ function mapToStore(state){
         visibility: state.noticeBar.visibility
     }
 }
-export default connect(mapToStore)(function({ onClick, visibility, content }){
+export default connect(mapToStore)(function({ onClose, visibility, content }){
     if(!visibility) return null
     const _onClick = () => {
-        onClick()
+        onClose()
         Model.change('noticeBar','visibility',false)
     }
     return (

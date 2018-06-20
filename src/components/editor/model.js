@@ -1,12 +1,11 @@
+import { Toast } from 'antd-mobile'
 import invariant from 'invariant'
 export default {
     namespace: 'editor',
-    state: {
-        unsaved: false
-    },
+    state: { unsaved: false },
     reducers: {
         onChange(state,action) {
-            return { ...state, unsaved: true }
+            return state
         }
     },
     effects: {
@@ -17,19 +16,16 @@ export default {
             callback && callback()
         },        
         * save({ note, callback }, { fetch, call, put }) {
-            if (note.content) {
-                yield put({ ...note, type: 'postServer' })
-                callback && callback(note)
-            }
-        },
-        * postServer({ itemId, content }, { fetch, call, put }) {
-            // 不直接调用，由save调用
-            yield put({ type: 'change', key: 'unsaved', value: false })
-            const res = yield call(fetch, `note/${itemId}`, { method: 'post', body: { content } })
-            if (res !== 'ok') {
-                alert(`request error:${res}`)
-                yield put({ type: 'change', key: 'unsaved', value: true })
-                return
+            const { itemId, content } = { ...note }
+            if (content) {
+                const res = yield call(fetch, `note/${itemId}`, { method: 'post', body: { content } })
+                if (res != 'ok') {
+                    Toast.offline(`保存失败: ${res}`, 2)
+                    return
+                }else{
+                    Toast.info('保存成功', 1)
+                    callback && callback(note) 
+                }
             }
         }
     },
@@ -39,3 +35,13 @@ export default {
         }
     }
 }
+// yield put({ ...note, type: 'postServer', callback })
+// * postServer({ itemId, content, callback }, { fetch, call, put }) {
+//     // 不直接调用，由save调用
+//     const res = yield call(fetch, `note/${itemId}`, { method: 'post', body: { content } })
+//     if (res !== 'ok') {
+//         Toast.offline(`保存失败: ${res}`, 1)
+//         return
+//     }
+//     callback && callback({ itemId, content })
+// }
