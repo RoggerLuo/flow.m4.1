@@ -6,10 +6,9 @@ Model.create({
     visibility: false
 })
 function TagsPanel({ tube, visibility }){
-    const clickTag = (e,tagValue) => {
+    const clickTag = tagValue => {
         tube.addTagContent(tagValue)
         Model.change('tagsPanel','visibility',false)
-        e.stopPropagation()
     }
     const openTags = e => {
         Model.change('tagsPanel','visibility',true)

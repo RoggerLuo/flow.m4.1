@@ -1,6 +1,7 @@
 .public-DraftEditorPlaceholder-root{
     margin-top: -16px;
     position: relative;
-    top: 19px;
+    top: 23px;
+    left: 3px;
     color: #b7b7b7;
 }

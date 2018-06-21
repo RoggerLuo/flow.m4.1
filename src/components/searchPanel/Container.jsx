@@ -2,7 +2,7 @@ import React from 'react'
 import { connect, Model } from 'dva'
 import View from './View'
 import Stateful from './Stateful'
-import Tags from 'components/history'
+import History from 'components/history'
 function Panel({ visibility, children, text, onSearch, historyData }) {
     const search = (value) => {
         if(value == ' ') return 
@@ -12,17 +12,15 @@ function Panel({ visibility, children, text, onSearch, historyData }) {
         Model.change('searchPanel','text','')
     }
     const toggle = () => dispatch({ type: 'searchPanel/toggle' })
-    const onClick = (e,val) => {
+    const onClick = val => {
         const str = Model.get('searchPanel').text + ' ' + val
         Model.change('searchPanel','text',str)
         search(str)
-        e.stopPropagation()
-        e.preventDefault()
     }
     return (
         <Stateful>
             <View visibility={visibility} search={search} text={text}>
-                <Tags onClick={onClick}/>
+                <History onClick={onClick}/>
             </View>
         </Stateful>
     )

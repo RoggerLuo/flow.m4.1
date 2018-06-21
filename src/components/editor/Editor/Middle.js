@@ -1,6 +1,8 @@
 import React from 'react'
 import { Model } from 'dva'
 import Basic from './Basic'
+import { Toast } from 'antd-mobile'
+
 class Middle extends React.Component {
     constructor(props) {
         super(props)
@@ -30,6 +32,14 @@ class Middle extends React.Component {
     }
     save(){
         const note = this.tube.getNote()
+        if (localStorage.getItem('_editorNote')) { // 如果没有编辑就不要保存
+            const lastNote = JSON.parse(localStorage.getItem('_editorNote'))   
+            if(lastNote.content == "") {
+                Toast.info('没有编辑，无需保存',1,null,false)
+                this.props.onSave && this.props.onSave(note)
+                return
+            }
+        }
         const callback = (note) => {
             this.newNote()
             this.props.onSave && this.props.onSave(note)

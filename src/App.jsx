@@ -1,14 +1,14 @@
 import React from 'react'
 import { connect, Model } from 'dva'
 import { Toast } from 'antd-mobile'
-import SearchPanel, * as sp from 'components/searchPanel'
-import NoticeBar, * as nb from 'components/NoticeBar'
+import SearchPanel, * as searchPanel from 'components/searchPanel'
+import NoticeBar, * as noticeBar from 'components/NoticeBar'
 import List, * as l from 'components/list'
 import Editor from 'components/editor'
 import Add from 'components/Add'
 import S from 'components/S'
-import * as h from 'components/history'
-import TagsPanel from 'components/TagsPanel'
+import * as history from 'components/history'
+import TagsPanel4editor from 'components/TagsPanel4editor'
 import Buttons from 'components/Buttons'
 
 function onSearch(res) {
@@ -19,7 +19,7 @@ function onSearch(res) {
         return
     }
     l.renderSearchList(res)
-    nb.open(res)
+    noticeBar.open(res)
     window.scrollTo({ top: 0 }) //自动返回顶部
 }
 
@@ -36,7 +36,11 @@ class App extends React.Component {
         this.startEditing = (note) => {
             localStorage.setItem('windowScrollTop', window.scrollY)
             this.editorTube.edit(note)
-            this.setState({ editorVisible: true })
+            this.setState({ editorVisible: true },()=>{
+                if(!note) { //新建
+                    this.editorTube.focus()
+                }
+            })
         }
         this.editorOnSave = (note) => {
             l.add(note)
@@ -47,12 +51,10 @@ class App extends React.Component {
                 window.scrollTo({ top: localStorage.getItem('windowScrollTop') })
             })
         }
-        this.add = () => {
-            this.startEditing(false)
-        }
+        this.add = () => this.startEditing(false)            
     }
     componentDidMount(){
-        h.fetch()
+        history.fetch()
     }
     render() {
         let listStyle = { display: 'block' }
@@ -66,15 +68,15 @@ class App extends React.Component {
             <div style={{height:'100%',display:'flex',flexDirection:'column'}}>
                 
                 <div style={listStyle}>
-                    <List clickNote={this.startEditing}/>
                     <NoticeBar onClose={closeSearchList}/>
                     <Add click={this.add} />
-                    <S click={sp.open}/>
+                    <S click={searchPanel.open}/>
+                    <List clickNote={this.startEditing}/>
                 </div>
                 
                 <div style={editorStyle} onClick={()=>this.editorTube.focus()}>
                     <Editor onSave={this.editorOnSave} tube={this.editorTube}/>
-                    <TagsPanel tube={this.editorTube} closeEditorPanel={this.closeEditorPanel}/>
+                    <TagsPanel4editor tube={this.editorTube} closeEditorPanel={this.closeEditorPanel}/>
                     <Buttons cancel={this.closeEditorPanel} save={()=>this.editorTube.save()}/>
                 </div>
                 <SearchPanel onSearch={onSearch} />

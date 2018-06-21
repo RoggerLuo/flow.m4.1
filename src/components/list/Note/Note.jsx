@@ -2,36 +2,47 @@ import React from 'react'
 import Wrap from './Wrap'
 import PlaceholderCore from './PlaceholderCore'
 import SearchCore from './SearchCore'
-
-function Note({ selectedIndex, onSelect, noteCore, index, note, clickNote }){
-    // const isSelected = index === selectedIndex
+import { Model } from 'dva'
+function Core({ noteCore, note }){
     if(note.displayContent) {
         return (
-            <Wrap note={note} clickNote={clickNote}>
-                <SearchCore content={note.displayContent}/>
-            </Wrap>
+            <SearchCore content={note.displayContent}/>
         )
     }
     if(noteCore) {
         const LazyCore = noteCore
         return (
-            <Wrap note={note} clickNote={clickNote}>
-                <LazyCore content={note.content} />
-            </Wrap>
+            <LazyCore content={note.content} />
         )
     }
     return (
-        <Wrap note={note} clickNote={clickNote}>
-            <PlaceholderCore content={note.content}/>
+        <PlaceholderCore content={note.content}/>
+    )
+}
+function Note({ noteCore, note, clickNote }){
+    const edit = () => clickNote(note)        
+    const del = () => {
+        let text = note.content.slice(0,60)
+        text = text.replace(/\n/g, ' ') 
+        text = text.replace(/\r/g, '')
+        if(note.content.length > 60) {
+            text += '...'
+        }
+        if(confirm(`确认删除笔记？\n"${text}"`)) {
+            Model.dispatch({ 
+                type: 'list/deleteNote', 
+                id: note.itemId, 
+                callback(){
+                    Model.dispatch(({ type: 'list/remove', note }))                
+                }
+            })
+        }
+    }
+    return (
+        <Wrap onClick={edit} onDelete={del}>
+            <Core noteCore={noteCore} note={note}/>
         </Wrap>
     )
 }
 
 export default Note
-
-// const select = () => {
-//     if(isSelected) return
-//     Model.reduce(state=>({ ...state, index }))
-//     onSelect(note)
-// }
-//select={select}

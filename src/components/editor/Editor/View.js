@@ -4,7 +4,7 @@ import img from './bg.png'
 
 export default function({ editorState, onChange, setRef }){
     return (
-        <div style={{ fontSize:'17px', cursor:'text', height:'100%', overflow:'auto', backgroundImage: `url(${img})` }}>
+        <div style={{ lineHeight: '1.5',fontSize:'17px', cursor:'text', height:'100%', overflow:'auto', backgroundImage: `url(${img})` }}>
             <div style={{ padding: '15px'}}>
                 <Editor 
                     editorState={editorState} 

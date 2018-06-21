@@ -2,6 +2,7 @@ import invariant from 'invariant'
 import countWeight from './countWeight.js'
 import highlight from './highlight.js'
 import flatListAndWeight from './flatListAndWeight.js'
+import { Toast } from 'antd-mobile'
 
 export default {
     namespace: 'list',
@@ -29,22 +30,22 @@ export default {
             return { ...state, notes, originalList: notes }
         },
         add(state,{ note }) {
-            let ind
-            if(
-                state.notes.some((_note,i)=>{
-                    if(_note.itemId == note.itemId) {
-                        ind = i
-                        _note.content = note.content
-                        return true                        
-                    }
-                })
-            ){
-                const notes = [...state.notes]
-                notes[ind] = note
-                return { ...state, notes }
+            const returnState = { ...state }
+            // 编辑
+            if(findIndex(state.originalList,note)){ //如果是已存在的笔记
+               const originalList = replaceNote(state.originalList,note)
+               returnState.originalList = originalList
             }
+            if(findIndex(state.notes,note)){ //如果是已存在的笔记
+                const notes = replaceNote(state.notes,note)
+                returnState.notes = notes
+                return returnState
+            }
+            // 新建笔记
+            note.wordList = JSON.stringify([]) // 要加入wordList属性，不然会报错
             const notes = [note,...state.notes]
-            return { ...state, notes, index: 0 }
+            const originalList = [note,...state.originalList]
+            return { ...state, notes, index: 0, originalList }
         },
         modify(state,{ note }) {
             const notes = [...state.notes]
@@ -56,27 +57,18 @@ export default {
             })
             return { ...state, notes }
         },
-        remove(state,{ itemId, callback }) {
-            let index = 0
-            state.notes.some((_note,_ind)=>{
-                if(_note.itemId == itemId) {
-                    index = _ind
-                    return true
-                }
-            })
-            const notes = [...state.notes]
-            notes.splice(index,1)
-            if(notes[state.index]) {
-                callback && callback(notes[state.index])
-            } else {
-                if(notes[state.index - 1]) {
-                    callback && callback(notes[state.index - 1])
-                }
-            }
-            if(!notes[state.index]) {
-                return { ...state, notes, index: state.index - 1 }
-            }
-            return { ...state, notes }
+        remove(state,{ note }) {
+            const returnState = { ...state }
+
+            const index = findIndex(state.notes,note)
+            returnState.notes = [...state.notes]
+            returnState.notes.splice(index,1)
+            
+            const index2 = findIndex(state.originalList,note)
+            returnState.originalList = [...state.originalList]
+            returnState.originalList.splice(index2,1)
+
+            return returnState
         }
     },
     effects: {
@@ -96,11 +88,38 @@ export default {
             yield put({ type: 'fetch', notes })
             cb && cb(notes)
         },
-        * deleteNote({ id }, { fetch, call, put }) {
-            yield call(fetch, `note/${id}`, { method: 'delete' })
+        * deleteNote({ id , callback }, { fetch, call, put }) {
+            const res = yield call(fetch, `note/${id}`, { method: 'delete' })
+            if (res != 'ok') {
+                Toast.offline(`删除失败: ${res}`,2,null,false)
+                return
+            }else{
+                Toast.info('删除成功',1,null,false)
+                callback && callback() 
+            }
         }
     },
     event: {
         onReady(dispatch) {}
     }
+}
+
+function replaceNote(notes,note){
+    const ind = findIndex(notes,note)
+    if(ind) {
+        const _notes = [...notes]
+        _notes[ind] = note
+        return _notes
+    }
+    return notes
+}
+function findIndex(notes,note){
+    let index = null
+    notes.some((_note,_ind)=>{
+        if(_note.itemId == note.itemId) {
+            index = _ind
+            return true
+        }
+    })
+    return index
 }
