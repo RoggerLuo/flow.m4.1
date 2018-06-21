@@ -14,7 +14,7 @@ export default {
             if (content) {
                 const res = yield call(fetch,`note/${itemId}`,{ method: 'post', body: { content } })
                 if (res != 'ok') {
-                    Toast.offline(`保存失败: ${res}`,2,null,false)
+                    Toast.offline(`保存失败: ${res}`,3,null,false)
                     return
                 }else{
                     Toast.info('保存成功',1,null,false)
