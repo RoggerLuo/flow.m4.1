@@ -4,6 +4,7 @@ import injectModel from './injectModel'
 export default function(app,config,sagaMiddleware){
     return { 
         get(namespace){
+            if(!namespace) return app._store.getState()
             return app._store.getState()[namespace]
         },
         create: injectModel(sagaMiddleware,app._store,config),
