@@ -20,7 +20,7 @@ export default {
             if(queryStr == ' ') return
             const res = yield call(fetch, `search/${queryStr}`)
             if(res instanceof Array) {
-                onSearch && onSearch(res)                
+                onSearch && onSearch(res,queryStr)                
             }else{
                 Toast.offline(`搜索失败: ${res}`,3,null,false)
             }

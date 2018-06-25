@@ -11,7 +11,7 @@ import * as history from 'components/history'
 import TagsPanel4editor from 'components/TagsPanel4editor'
 import Buttons from 'components/Buttons'
 
-function onSearch(res) {
+function onSearch(res,queryStr) {
     if (
         (res.length == 1) && (res[0].length == 0)
     ) { //没有搜索到
@@ -19,7 +19,7 @@ function onSearch(res) {
         return
     }
     l.renderSearchList(res)
-    noticeBar.open(res)
+    noticeBar.open(queryStr)
     window.scrollTo({ top: 0 }) //自动返回顶部
 }
 

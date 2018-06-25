@@ -19,7 +19,7 @@ export default function({ onClick, onDelete, children }) {
                     fontSize:'16px',
                     lineHeight:'1.5',
                     minHeight:'50px',
-                    padding:'15px 10px 15px 10px'
+                    padding:'20px 10px 20px 10px'
                 }} 
             >
                 {children}

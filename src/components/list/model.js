@@ -14,6 +14,15 @@ export default {
     },
     reducers: {
         search(state,{ wordList }){
+            // const notes = wordList
+            //     .map(e => e.note)
+            //     .map(entry => {
+            //         const itemId = entry[1]
+            //         const content = entry[2]
+            //         const wordList = entry[3]
+            //         const modifiedTime = entry[4]
+            //         return { itemId, content, wordList, modifiedTime }
+            //     })
             wordList = flatListAndWeight(wordList)
             const displayList = []
             state.originalList.forEach(_note=>{
@@ -23,7 +32,7 @@ export default {
                 }
             })
             displayList.sort((a,b)=>b.weight - a.weight)
-            const searchList = displayList.slice(0,20).map(note => highlight(note,wordList))
+            const searchList = displayList.slice(0,30).map(note => highlight(note,wordList))
             return { ...state, notes: searchList }
         },
         fetch(state,{ notes }) {
@@ -36,7 +45,8 @@ export default {
                const originalList = replaceNote(state.originalList,note)
                returnState.originalList = originalList
             }
-            if(findIndex(state.notes,note)){ //如果是已存在的笔记
+            const foundIndex = findIndex(state.notes,note)
+            if(foundIndex==0 || foundIndex){ //如果是已存在的笔记
                 const notes = replaceNote(state.notes,note)
                 returnState.notes = notes
                 return returnState

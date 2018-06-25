@@ -26,10 +26,10 @@ export default connect(mapToStore)(function({ onClose, visibility, content }){
     )  
 })
 export function open(res){
-    let content = ''
-    res.forEach(group=>{
-        content = group.map(entry=>entry.word).join(' ')
-    })
+    // let content = ''
+    // res.forEach(group=>{
+    //     content = group.map(entry=>entry.word).join(' ')
+    // })
     Model.change('noticeBar','visibility',true)    
-    Model.change('noticeBar','content',content)
+    Model.change('noticeBar','content',res)
 }

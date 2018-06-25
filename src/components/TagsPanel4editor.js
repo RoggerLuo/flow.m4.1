@@ -18,7 +18,7 @@ function TagsPanel({ tube, visibility }){
         Model.change('tagsPanel','visibility',false)
         e.stopPropagation()
     }
-    const panelStyle = {zIndex:3,textAlign: 'center',position:'fixed',top:'10px',right:'10px',opacity:'0.4',paddingBottom: '10px',paddingLeft: '10px'}
+    const panelStyle = {zIndex:3,textAlign: 'center',position:'fixed',top:'0px',right:'10px',opacity:'0.4',paddingBottom: '10px',paddingLeft: '10px'}
     if(visibility) {
         return (
             <div style={{zIndex:4,position:'fixed',bottom:'0px',top:'0px',left:'0px',right:'0px',backgroundColor:'white'}}>
