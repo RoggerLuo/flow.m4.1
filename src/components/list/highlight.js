@@ -19,9 +19,9 @@ export default function(note,wordList) {
     }
     function markStep1(str,keyword){
         try {
-            str = titleConvert(str,"###",'h4')
-            str = titleConvert(str,"##",'h3')
-            str = titleConvert(str,"#",'h2')
+            str = titleConvert(str,"###",'h3')
+            str = titleConvert(str,"##",'h2')
+            str = titleConvert(str,"#",'h1')
             const reg = new RegExp("(" + keyword + ")", "g")
             const newstr = str.replace(reg, " _-_-$1-_-_ ") 
             return newstr

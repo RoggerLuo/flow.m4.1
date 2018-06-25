@@ -10,4 +10,3 @@ export default function({ content }){
         </span>
     )
 }
-//style={{backgroundColor:'#ececec',color:'#ececec'}} 
