@@ -47,16 +47,19 @@
   "dependencies": {
     "antd-mobile": "^2.1.11",
     "draft-js": "^0.10.5",
+    "es6-promise": "^4.2.4",
     "invariant": "^2.2.4",
+    "isomorphic-fetch": "^2.2.1",
     "markdown-react-js": "^1.0.0",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "react-redux": "^5.0.7",
     "redux": "^4.0.0",
-    "redux-saga": "^0.16.0"
+    "redux-saga": "^0.16.0",
+    "whatwg-fetch": "^2.0.4"
   },
   "browserslist": [
-      "iOS >= 8",
-      "Android > 4"
+    "iOS >= 8",
+    "Android > 4"
   ]
 }
