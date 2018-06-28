@@ -1,4 +1,11 @@
-#Basic Usage
+## 6月26日update
+-  改进dva代码组织形式(composeReducer.js)
+-  dva saga增加get方法
+-  dva fetch增加两种post mode (拿不到token的根本原因)
+-  增加headers配置项 和 动态更新配置
+
+
+# Basic Usage
 
 ```javascript
 import dva,{ Fetch } from 'dva'

@@ -2,15 +2,17 @@ import invariant from 'invariant'
 import injectModel from './injectModel'
 
 export default function(app,config,sagaMiddleware){
+    config.sagaMethod = { get }  // saga中也加入get方法
     return { 
-        get(namespace){
-            if(!namespace) return app._store.getState()
-            return app._store.getState()[namespace]
-        },
         create: injectModel(sagaMiddleware,app._store,config),
+        dispatch: app._store.dispatch,
+        get,
         change,
-        reduce,
-        dispatch: app._store.dispatch
+        reduce
+    }
+    function get(namespace){
+        if(!namespace) return app._store.getState()
+        return app._store.getState()[namespace]
     }
     function change(namespace,key,value){
         invariant(namespace && key,'Model change方法需要传入namespace，key')

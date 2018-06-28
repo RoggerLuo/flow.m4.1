@@ -6,12 +6,12 @@ export default (sagaMiddleware,namespace,config) => (key, cb) => {
     invariant(typeof(cb) === 'function', `the second arg of saga should be function`)
     sagaMiddleware.run(createSaga())
     function createSaga() {
-        function prefixed_put(action) {
+        function prefixedPut(action) {
             action.type = `${namespace}/${action.type}`
             return put(action)
         }
         function* saga(action) {
-            yield cb(action,{ ...config.sagaInjection, put: prefixed_put, call }) 
+            yield cb(action,{ ...config.sagaMethod,...config.sagaInjection, put: prefixedPut, call })  //注入参数
         }
         return function*() {
             yield takeEvery(`${namespace}/${key}`,saga)
