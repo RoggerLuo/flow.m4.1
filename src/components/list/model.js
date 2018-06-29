@@ -3,7 +3,6 @@ import countWeight from './countWeight.js'
 import highlight from './highlight.js'
 import flatListAndWeight from './flatListAndWeight.js'
 import { Toast } from 'antd-mobile'
-
 export default {
     namespace: 'list',
     state: {
@@ -41,7 +40,8 @@ export default {
         add(state,{ note }) {
             const returnState = { ...state }
             // 编辑
-            if(findIndex(state.originalList,note)){ //如果是已存在的笔记
+            const findIndex_original = findIndex(state.originalList,note)
+            if(findIndex_original==0 || findIndex_original){ //如果是已存在的笔记
                const originalList = replaceNote(state.originalList,note)
                returnState.originalList = originalList
             }
@@ -49,7 +49,12 @@ export default {
             if(foundIndex==0 || foundIndex){ //如果是已存在的笔记
                 const notes = replaceNote(state.notes,note)
                 returnState.notes = notes
-                return returnState
+            }
+            if(
+                (findIndex_original==0 || findIndex_original)||
+                (foundIndex==0 || foundIndex)
+            ) {
+                return returnState                
             }
             // 新建笔记
             note.wordList = JSON.stringify([]) // 要加入wordList属性，不然会报错
@@ -113,10 +118,9 @@ export default {
         onReady(dispatch) {}
     }
 }
-
 function replaceNote(notes,note){
     const ind = findIndex(notes,note)
-    if(ind) {
+    if(ind==0 || ind) {
         const _notes = [...notes]
         _notes[ind] = note
         return _notes
