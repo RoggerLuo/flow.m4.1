@@ -23,9 +23,13 @@ class Middle extends React.Component {
             str = `\n- ${tagValue} -`
         }
         this.oldText += str
-        this.tube.reduce(prevNote => ({ content: this.oldText, itemId: prevNote.itemId }))
+        this.tube.reduce(prevNote => {
+            window.localStorage.setItem('_editorNote',JSON.stringify({ content: this.oldText, itemId: prevNote.itemId }) )
+            return ({ content: this.oldText, itemId: prevNote.itemId })   
+        })
     }
     replace(note,callback){
+        window.localStorage.setItem('_currentEditorNote',JSON.stringify(note))
         this.tube.reduce(prevNote=>note,()=>{
             this.oldText = this.tube.getNote().content
         })

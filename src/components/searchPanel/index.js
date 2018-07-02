@@ -15,3 +15,6 @@ export function open() {
 export function toggle() {
     dva._store.dispatch({ type: 'searchPanel/toggle' })
 }
+export function search(queryStr,onSearch) {
+    Model.dispatch({type:'searchPanel/search',queryStr,onSearch})
+}

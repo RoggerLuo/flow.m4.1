@@ -4,8 +4,8 @@ export default function(note,wordList) {
     note = { ...note }
     note.weight = 0
     note._wordList = []
-    
-    const arr = JSON.parse(note.wordList) 
+    if(!note.wordList) return note
+    const arr = JSON.parse(note.wordList)
     arr.forEach(word=>{ // 去重
         if(note._wordList.indexOf(word) == -1){
             note._wordList.push(word)

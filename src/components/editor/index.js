@@ -12,3 +12,9 @@ import(/* webpackChunkName: "Editor" */ './Editor/Top').then(_Editor => {
 Model.create(model)
 
 export default LazyEditor
+export function getCurrent(){
+    return JSON.parse(localStorage.getItem('_currentEditorNote'))   
+} 
+// export function clear(){
+//     return localStorage.setItem('_editorNote',JSON.stringify({content:'',itemId:Date.parse(new Date())/1000}))   
+// } 

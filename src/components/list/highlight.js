@@ -18,6 +18,7 @@ export default function(note,wordList) {
         return str
     }
     function markStep1(str,keyword){
+        if(keyword.indexOf('.') != -1) return str
         try {
             str = titleConvert(str,"###",'h3')
             str = titleConvert(str,"##",'h2')
